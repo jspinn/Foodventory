@@ -25,9 +25,9 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>120</x>
+      <x>110</x>
       <y>0</y>
-      <width>680</width>
+      <width>690</width>
       <height>481</height>
      </rect>
     </property>
@@ -130,13 +130,85 @@
      </widget>
     </widget>
     <widget class="QWidget" name="inventory"/>
+    <widget class="QWidget" name="list">
+     <widget class="QListWidget" name="listWidget">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>50</y>
+        <width>421</width>
+        <height>391</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="listEdit">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>10</y>
+        <width>421</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="addButton">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>30</y>
+        <width>121</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="deleteButton">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>160</y>
+        <width>121</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="clearButton">
+      <property name="geometry">
+       <rect>
+        <x>520</x>
+        <y>290</y>
+        <width>121</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Clear</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="settings"/>
    </widget>
    <widget class="QPushButton" name="homeButton">
     <property name="geometry">
      <rect>
       <x>-1</x>
       <y>-1</y>
-      <width>119</width>
+      <width>112</width>
       <height>123</height>
      </rect>
     </property>
@@ -154,7 +226,7 @@
      <rect>
       <x>-1</x>
       <y>119</y>
-      <width>119</width>
+      <width>112</width>
       <height>122</height>
      </rect>
     </property>
@@ -172,7 +244,7 @@
      <rect>
       <x>-1</x>
       <y>238</y>
-      <width>119</width>
+      <width>112</width>
       <height>123</height>
      </rect>
     </property>
@@ -190,7 +262,7 @@
      <rect>
       <x>-1</x>
       <y>358</y>
-      <width>119</width>
+      <width>112</width>
       <height>124</height>
      </rect>
     </property>
