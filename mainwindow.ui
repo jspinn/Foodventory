@@ -1,0 +1,210 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui version="4.0">
+ <class>MainWindow</class>
+ <widget class="QMainWindow" name="MainWindow">
+  <property name="geometry">
+   <rect>
+    <x>0</x>
+    <y>0</y>
+    <width>800</width>
+    <height>480</height>
+   </rect>
+  </property>
+  <property name="font">
+   <font>
+    <family>MS Shell Dlg 2</family>
+   </font>
+  </property>
+  <property name="windowTitle">
+   <string>MainWindow</string>
+  </property>
+  <property name="tabShape">
+   <enum>QTabWidget::Rounded</enum>
+  </property>
+  <widget class="QWidget" name="centralwidget">
+   <widget class="QStackedWidget" name="stackedWidget">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>0</y>
+      <width>680</width>
+      <height>481</height>
+     </rect>
+    </property>
+    <property name="currentIndex">
+     <number>0</number>
+    </property>
+    <widget class="QWidget" name="home">
+     <widget class="QWidget" name="verticalLayoutWidget">
+      <property name="geometry">
+       <rect>
+        <x>90</x>
+        <y>20</y>
+        <width>461</width>
+        <height>237</height>
+       </rect>
+      </property>
+      <layout class="QVBoxLayout" name="verticalLayout">
+       <item>
+        <widget class="QLabel" name="timeLabel">
+         <property name="font">
+          <font>
+           <pointsize>50</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>TIME</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="dayLabel">
+         <property name="font">
+          <font>
+           <pointsize>35</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>DAY</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+       <item>
+        <widget class="QLabel" name="dateLabel">
+         <property name="font">
+          <font>
+           <pointsize>25</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>DATE</string>
+         </property>
+         <property name="alignment">
+          <set>Qt::AlignCenter</set>
+         </property>
+        </widget>
+       </item>
+      </layout>
+     </widget>
+     <widget class="QPushButton" name="putAwayButton">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>310</y>
+        <width>271</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>PUT AWAY</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="takeOutButton">
+      <property name="geometry">
+       <rect>
+        <x>350</x>
+        <y>310</y>
+        <width>271</width>
+        <height>111</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>20</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>TAKE OUT</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="inventory"/>
+   </widget>
+   <widget class="QPushButton" name="homeButton">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>-1</y>
+      <width>119</width>
+      <height>123</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>HOME</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="invButton">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>119</y>
+      <width>119</width>
+      <height>122</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>INVENTORY</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="listButton">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>238</y>
+      <width>119</width>
+      <height>123</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>LIST</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="settingsButton">
+    <property name="geometry">
+     <rect>
+      <x>-1</x>
+      <y>358</y>
+      <width>119</width>
+      <height>124</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>10</pointsize>
+     </font>
+    </property>
+    <property name="text">
+     <string>SETTINGS</string>
+    </property>
+   </widget>
+  </widget>
+ </widget>
+ <resources/>
+ <connections/>
+</ui>
