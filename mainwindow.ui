@@ -16,7 +16,7 @@
    </font>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Foodventory</string>
   </property>
   <property name="tabShape">
    <enum>QTabWidget::Rounded</enum>
@@ -25,14 +25,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>110</x>
+      <x>100</x>
       <y>0</y>
-      <width>690</width>
+      <width>701</width>
       <height>481</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>0</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -129,7 +129,47 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="inventory"/>
+    <widget class="QWidget" name="inventory">
+     <widget class="QTableView" name="tableView">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>0</y>
+        <width>491</width>
+        <height>481</height>
+       </rect>
+      </property>
+      <property name="sortingEnabled">
+       <bool>true</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="invAddButton">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>60</y>
+        <width>121</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="invDeleteButton">
+      <property name="geometry">
+       <rect>
+        <x>540</x>
+        <y>190</y>
+        <width>121</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+    </widget>
     <widget class="QWidget" name="list">
      <widget class="QListWidget" name="listWidget">
       <property name="geometry">
@@ -159,6 +199,9 @@
        <font>
         <pointsize>12</pointsize>
        </font>
+      </property>
+      <property name="placeholderText">
+       <string>New item...</string>
       </property>
      </widget>
      <widget class="QPushButton" name="addButton">
@@ -201,14 +244,155 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="settings"/>
+    <widget class="QWidget" name="settings">
+     <widget class="QPushButton" name="exitButton">
+      <property name="geometry">
+       <rect>
+        <x>530</x>
+        <y>380</y>
+        <width>141</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>EXIT</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="putAway">
+     <widget class="QPushButton" name="manualButton">
+      <property name="geometry">
+       <rect>
+        <x>220</x>
+        <y>390</y>
+        <width>221</width>
+        <height>71</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Enter Manually</string>
+      </property>
+     </widget>
+    </widget>
+    <widget class="QWidget" name="manualEnter">
+     <widget class="QLineEdit" name="nameLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>50</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>Name</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="brandLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>110</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>Brand</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="upcLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>170</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhDigitsOnly</set>
+      </property>
+      <property name="placeholderText">
+       <string>UPC</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="locationLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>40</x>
+        <y>230</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>10</pointsize>
+       </font>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhDigitsOnly</set>
+      </property>
+      <property name="placeholderText">
+       <string>Location</string>
+      </property>
+      <property name="clearButtonEnabled">
+       <bool>false</bool>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="manualAddButton">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>50</y>
+        <width>131</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="manualCancelButton">
+      <property name="geometry">
+       <rect>
+        <x>400</x>
+        <y>170</y>
+        <width>131</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Cancel</string>
+      </property>
+     </widget>
+    </widget>
    </widget>
    <widget class="QPushButton" name="homeButton">
     <property name="geometry">
      <rect>
       <x>-1</x>
       <y>-1</y>
-      <width>112</width>
+      <width>102</width>
       <height>123</height>
      </rect>
     </property>
@@ -226,7 +410,7 @@
      <rect>
       <x>-1</x>
       <y>119</y>
-      <width>112</width>
+      <width>102</width>
       <height>122</height>
      </rect>
     </property>
@@ -244,7 +428,7 @@
      <rect>
       <x>-1</x>
       <y>238</y>
-      <width>112</width>
+      <width>102</width>
       <height>123</height>
      </rect>
     </property>
@@ -262,7 +446,7 @@
      <rect>
       <x>-1</x>
       <y>358</y>
-      <width>112</width>
+      <width>102</width>
       <height>124</height>
      </rect>
     </property>
