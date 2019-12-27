@@ -20,7 +20,7 @@ class MainWindow(QtWidgets.QMainWindow):
         db.open()
 
         self.query = QtSql.QSqlQuery()
-        self.query.exec_("CREATE TABLE food(name STRING, brand STRING, location STRING, date STRING, UPC INTEGER)")
+        self.query.exec_("CREATE TABLE food(name STRING, brand STRING, location STRING, quantity REAL, date STRING, UPC INTEGER)")
 
 #        query.exec_("INSERT INTO food VALUES('Crackers', 'Townhouse', 'Pantry', '08/10/17', 123448689100)")
 
@@ -35,11 +35,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(0, QtCore.Qt.Horizontal, "Food Item")
         self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Brand")
         self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Location")
-        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Date Added")
-        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "UPC")
+        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Quantity")
+        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Date Added")
+        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "UPC")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.resizeColumnsToContents()
+        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
 
 
         # Set initial clock
@@ -54,6 +56,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_connections()
 
 
+
+    def update_table(self):
+        self.model.select()
+        self.ui.tableView.resizeColumnsToContents()
+        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
 
 
     def setup_connections(self):
@@ -74,6 +81,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Inventory connections
         self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
+        self.ui.invAddButton.clicked.connect(self.inv_add_button_pressed)
 
         # List connections
         self.ui.addButton.clicked.connect(self.add_button_pressed)
@@ -85,10 +93,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
 
     def date_time(self):
-        now = datetime.now()
-        self.ui.timeLabel.setText(now.strftime("%I"+":%M:%S"))
-        self.ui.dayLabel.setText(now.strftime("%A"))
-        self.ui.dateLabel.setText(now.strftime("%m/%d/%Y"))
+        self.now = datetime.now()
+        self.ui.timeLabel.setText(self.now.strftime("%I"+":%M:%S"))
+        self.ui.dayLabel.setText(self.now.strftime("%A"))
+        self.ui.dateLabel.setText(self.now.strftime("%m/%d/%y"))
 
     # SLOTS
 
@@ -114,33 +122,37 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['ManualEnter'])
 
     def manual_add_button_pressed(self):
-
+        quantity = self.ui.quantitySpinBox.value()
         name = self.ui.nameLineEdit.text()
         brand = self.ui.brandLineEdit.text()
         location = self.ui.locationLineEdit.text()
         upc = self.ui.upcLineEdit.text()
+        date = self.now.strftime("%m/%d/%Y")
 
         # Insert into database
-        self.query.prepare("INSERT INTO food (name, brand, location, upc) VALUES(:name, :brand, :location, :upc)")
+        self.query.prepare("INSERT INTO food (name, brand, location, quantity, date, upc) VALUES(:name, :brand, :location, :quantity, :date, :upc)")
 
+        self.query.bindValue(":quantity", quantity)
         self.query.bindValue(":name", name)
         self.query.bindValue(":brand", brand)
         self.query.bindValue(":location", location)
+        self.query.bindValue(":date", date)
         self.query.bindValue(":upc", upc)
 
         self.query.exec_()
 
         # Update model view
-        self.model.select()
+        self.update_table()
 
         # Clear line edits
         self.ui.nameLineEdit.clear()
         self.ui.brandLineEdit.clear()
         self.ui.locationLineEdit.clear()
         self.ui.upcLineEdit.clear()
+        self.ui.quantitySpinBox.setValue(1.0)
 
         # Return to home
-        self.home_button_pressed()
+        self.inv_button_pressed()
 
     def manual_cancel_button_pressed(self):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Home'])
@@ -152,6 +164,9 @@ class MainWindow(QtWidgets.QMainWindow):
     def inv_delete_button_pressed(self):
         self.model.removeRow(self.ui.tableView.currentIndex().row())
         self.model.select()
+
+    def inv_add_button_pressed(self):
+        self.manual_enter_button_pressed()
 
     # List slots
     def add_button_pressed(self):

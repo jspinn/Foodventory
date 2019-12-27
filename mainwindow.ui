@@ -28,11 +28,11 @@
       <x>100</x>
       <y>0</y>
       <width>701</width>
-      <height>481</height>
+      <height>480</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>5</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -133,9 +133,9 @@
      <widget class="QTableView" name="tableView">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>0</x>
         <y>0</y>
-        <width>491</width>
+        <width>582</width>
         <height>481</height>
        </rect>
       </property>
@@ -146,8 +146,8 @@
      <widget class="QPushButton" name="invAddButton">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>60</y>
+        <x>580</x>
+        <y>0</y>
         <width>121</width>
         <height>101</height>
        </rect>
@@ -159,8 +159,8 @@
      <widget class="QPushButton" name="invDeleteButton">
       <property name="geometry">
        <rect>
-        <x>540</x>
-        <y>190</y>
+        <x>580</x>
+        <y>98</y>
         <width>121</width>
         <height>101</height>
        </rect>
@@ -328,6 +328,9 @@
       <property name="inputMethodHints">
        <set>Qt::ImhDigitsOnly</set>
       </property>
+      <property name="maxLength">
+       <number>12</number>
+      </property>
       <property name="placeholderText">
        <string>UPC</string>
       </property>
@@ -362,7 +365,7 @@
      <widget class="QPushButton" name="manualAddButton">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>480</x>
         <y>50</y>
         <width>131</width>
         <height>81</height>
@@ -375,7 +378,7 @@
      <widget class="QPushButton" name="manualCancelButton">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>480</x>
         <y>170</y>
         <width>131</width>
         <height>81</height>
@@ -383,6 +386,57 @@
       </property>
       <property name="text">
        <string>Cancel</string>
+      </property>
+     </widget>
+     <widget class="QDoubleSpinBox" name="quantitySpinBox">
+      <property name="geometry">
+       <rect>
+        <x>240</x>
+        <y>90</y>
+        <width>201</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="cursor">
+       <cursorShape>ArrowCursor</cursorShape>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::UpDownArrows</enum>
+      </property>
+      <property name="singleStep">
+       <double>0.250000000000000</double>
+      </property>
+      <property name="stepType">
+       <enum>QAbstractSpinBox::DefaultStepType</enum>
+      </property>
+      <property name="value">
+       <double>1.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QLabel" name="label">
+      <property name="geometry">
+       <rect>
+        <x>300</x>
+        <y>50</y>
+        <width>81</width>
+        <height>31</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>Quantity</string>
       </property>
      </widget>
     </widget>
