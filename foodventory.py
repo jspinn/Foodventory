@@ -1,6 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from PyQt5 import QtWidgets, QtCore, QtSql, uic
+from PyQt5 import QtWidgets, QtCore, QtSql, QtGui, uic
 from datetime import datetime
 from ui_MainWindow import Ui_MainWindow
 
@@ -36,7 +36,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Brand")
         self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Location")
         self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Quantity")
-        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Date Added")
+        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Date")
         self.model.setHeaderData(5, QtCore.Qt.Horizontal, "UPC")
 
         self.ui.tableView.setModel(self.model)
@@ -82,6 +82,8 @@ class MainWindow(QtWidgets.QMainWindow):
         # Inventory connections
         self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
         self.ui.invAddButton.clicked.connect(self.inv_add_button_pressed)
+        self.ui.invFindButton.clicked.connect(self.inv_find_button_pressed)
+        self.ui.invSearchLineEdit.returnPressed.connect(self.inv_find_button_pressed)
 
         # List connections
         self.ui.addButton.clicked.connect(self.add_button_pressed)
@@ -97,6 +99,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.timeLabel.setText(self.now.strftime("%I"+":%M:%S"))
         self.ui.dayLabel.setText(self.now.strftime("%A"))
         self.ui.dateLabel.setText(self.now.strftime("%m/%d/%y"))
+
+    def find(self, searchText, column=0):
+        start = self.model.index(0, column)
+        return self.model.match(
+            start, QtCore.Qt.DisplayRole,
+            searchText, -1, QtCore.Qt.MatchContains)
 
     # SLOTS
 
@@ -127,7 +135,7 @@ class MainWindow(QtWidgets.QMainWindow):
         brand = self.ui.brandLineEdit.text()
         location = self.ui.locationLineEdit.text()
         upc = self.ui.upcLineEdit.text()
-        date = self.now.strftime("%m/%d/%Y")
+        date = self.now.strftime("%m/%d/%y")
 
         # Insert into database
         self.query.prepare("INSERT INTO food (name, brand, location, quantity, date, upc) VALUES(:name, :brand, :location, :quantity, :date, :upc)")
@@ -167,6 +175,19 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def inv_add_button_pressed(self):
         self.manual_enter_button_pressed()
+
+    def inv_find_button_pressed(self):
+        searchItems = self.find(self.ui.invSearchLineEdit.text())
+
+        if not searchItems:
+            searchItems = self.find(self.ui.invSearchLineEdit.text(), 1)
+
+        if searchItems:
+            index = searchItems[0]
+
+#            self.ui.tableView.setCurrentIndex(index)
+            self.ui.tableView.selectRow(index.row())
+
 
     # List slots
     def add_button_pressed(self):

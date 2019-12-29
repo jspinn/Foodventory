@@ -25,14 +25,14 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>100</x>
+      <x>79</x>
       <y>0</y>
-      <width>701</width>
+      <width>722</width>
       <height>480</height>
      </rect>
     </property>
     <property name="currentIndex">
-     <number>5</number>
+     <number>1</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -135,9 +135,14 @@
        <rect>
         <x>0</x>
         <y>0</y>
-        <width>582</width>
-        <height>481</height>
+        <width>654</width>
+        <height>441</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
       </property>
       <property name="sortingEnabled">
        <bool>true</bool>
@@ -146,9 +151,9 @@
      <widget class="QPushButton" name="invAddButton">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>652</x>
         <y>0</y>
-        <width>121</width>
+        <width>71</width>
         <height>101</height>
        </rect>
       </property>
@@ -159,14 +164,45 @@
      <widget class="QPushButton" name="invDeleteButton">
       <property name="geometry">
        <rect>
-        <x>580</x>
+        <x>652</x>
         <y>98</y>
-        <width>121</width>
+        <width>71</width>
         <height>101</height>
        </rect>
       </property>
       <property name="text">
        <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="invSearchLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>130</x>
+        <y>440</y>
+        <width>212</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>8</pointsize>
+       </font>
+      </property>
+      <property name="placeholderText">
+       <string>Search...</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="invFindButton">
+      <property name="geometry">
+       <rect>
+        <x>340</x>
+        <y>439</y>
+        <width>185</width>
+        <height>43</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Find</string>
       </property>
      </widget>
     </widget>
@@ -446,13 +482,13 @@
      <rect>
       <x>-1</x>
       <y>-1</y>
-      <width>102</width>
+      <width>82</width>
       <height>123</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
     <property name="text">
@@ -464,13 +500,13 @@
      <rect>
       <x>-1</x>
       <y>119</y>
-      <width>102</width>
+      <width>82</width>
       <height>122</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
     <property name="text">
@@ -482,13 +518,13 @@
      <rect>
       <x>-1</x>
       <y>238</y>
-      <width>102</width>
+      <width>82</width>
       <height>123</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
     <property name="text">
@@ -500,13 +536,13 @@
      <rect>
       <x>-1</x>
       <y>358</y>
-      <width>102</width>
+      <width>82</width>
       <height>124</height>
      </rect>
     </property>
     <property name="font">
      <font>
-      <pointsize>10</pointsize>
+      <pointsize>8</pointsize>
      </font>
     </property>
     <property name="text">
