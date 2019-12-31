@@ -175,7 +175,6 @@ class Ui_MainWindow(object):
         self.quantitySpinBox.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
         self.quantitySpinBox.setAlignment(QtCore.Qt.AlignCenter)
         self.quantitySpinBox.setButtonSymbols(QtWidgets.QAbstractSpinBox.UpDownArrows)
-        self.quantitySpinBox.setSingleStep(0.25)
         self.quantitySpinBox.setStepType(QtWidgets.QAbstractSpinBox.DefaultStepType)
         self.quantitySpinBox.setProperty("value", 1.0)
         self.quantitySpinBox.setObjectName("quantitySpinBox")

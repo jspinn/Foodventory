@@ -463,9 +463,6 @@
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::UpDownArrows</enum>
       </property>
-      <property name="singleStep">
-       <double>0.250000000000000</double>
-      </property>
       <property name="stepType">
        <enum>QAbstractSpinBox::DefaultStepType</enum>
       </property>
