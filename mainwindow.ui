@@ -32,7 +32,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -307,6 +307,22 @@
       </property>
       <property name="text">
        <string>Enter Manually</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="imageView">
+      <property name="geometry">
+       <rect>
+        <x>20</x>
+        <y>20</y>
+        <width>640</width>
+        <height>355</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Loading Camera...</string>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>

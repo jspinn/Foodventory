@@ -1,3 +1,5 @@
+foodventory.db
+.idea
 __pycache__
 *.pyc
 env/

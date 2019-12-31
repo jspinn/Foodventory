@@ -125,6 +125,10 @@ class Ui_MainWindow(object):
         self.manualButton = QtWidgets.QPushButton(self.putAway)
         self.manualButton.setGeometry(QtCore.QRect(220, 390, 221, 71))
         self.manualButton.setObjectName("manualButton")
+        self.imageView = QtWidgets.QLabel(self.putAway)
+        self.imageView.setGeometry(QtCore.QRect(20, 20, 640, 355))
+        self.imageView.setAlignment(QtCore.Qt.AlignCenter)
+        self.imageView.setObjectName("imageView")
         self.stackedWidget.addWidget(self.putAway)
         self.manualEnter = QtWidgets.QWidget()
         self.manualEnter.setObjectName("manualEnter")
@@ -209,7 +213,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(1)
+        self.stackedWidget.setCurrentIndex(0)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):
@@ -230,6 +234,7 @@ class Ui_MainWindow(object):
         self.clearButton.setText(_translate("MainWindow", "Clear"))
         self.exitButton.setText(_translate("MainWindow", "EXIT"))
         self.manualButton.setText(_translate("MainWindow", "Enter Manually"))
+        self.imageView.setText(_translate("MainWindow", "Loading Camera..."))
         self.nameLineEdit.setPlaceholderText(_translate("MainWindow", "Name"))
         self.brandLineEdit.setPlaceholderText(_translate("MainWindow", "Brand"))
         self.upcLineEdit.setPlaceholderText(_translate("MainWindow", "UPC"))

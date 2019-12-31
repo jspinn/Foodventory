@@ -1,8 +1,46 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from PyQt5 import QtWidgets, QtCore, QtSql, QtGui, uic
+from PyQt5 import QtWidgets, QtCore, QtSql, uic, QtGui
 from datetime import datetime
+import cv2
+import time
+from pyzbar import pyzbar
+from imutils.video import VideoStream
 from ui_MainWindow import Ui_MainWindow
+
+class CameraThread(QtCore.QThread):
+    changePixmap = QtCore.pyqtSignal(QtGui.QImage)
+
+    captureVid = True
+
+    def run(self):
+#        cap = VideoStream(src=0).start()
+        cap = cv2.VideoCapture(0)
+
+        while self.captureVid:
+            ret, frame = cap.read()
+
+            if ret:
+                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgbImage.shape
+                bytesPerLine = ch * w
+                convertToQtFormat = QtGui.QImage(rgbImage.data, w, h, bytesPerLine, QtGui.QImage.Format_RGB888)
+                p = convertToQtFormat.scaled(640, 480, QtCore.Qt.KeepAspectRatio)
+                self.changePixmap.emit(p)
+                cv2.waitKey(30)
+
+
+                barcodes = pyzbar.decode(frame)
+
+                for barcode in barcodes:
+                    barcodeData = barcode.data.decode('utf-8')
+                    print(barcodeData)
+                    cv2.imshow("Scan", frame)
+
+        cap.release()
+        cv2.destroyAllWindows()
+
+
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -22,8 +60,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.query = QtSql.QSqlQuery()
         self.query.exec_("CREATE TABLE food(name STRING, brand STRING, location STRING, quantity REAL, date STRING, UPC INTEGER)")
 
-#        query.exec_("INSERT INTO food VALUES('Crackers', 'Townhouse', 'Pantry', '08/10/17', 123448689100)")
-
+        self.query.exec_("SELECT * FROM food WHERE location = 'Fridge'")
 
         self.model = QtSql.QSqlTableModel()
 
@@ -54,6 +91,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Setup button connections
         self.setup_connections()
+
+        self.thread = CameraThread(self)
+        self.thread.changePixmap.connect(self.setImage)
 
 
 
@@ -92,6 +132,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Settings connections
         self.ui.exitButton.clicked.connect(self.exit_button_pressed)
+
+        self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
 
 
     def date_time(self):
@@ -185,7 +227,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if searchItems:
             index = searchItems[0]
 
-#            self.ui.tableView.setCurrentIndex(index)
             self.ui.tableView.selectRow(index.row())
 
 
@@ -203,6 +244,22 @@ class MainWindow(QtWidgets.QMainWindow):
     # Settings slots
     def exit_button_pressed(self):
         self.close()
+
+    # Barcode scanner slot
+    def stack_index_changed(self, index):
+        if index == self.tabs['PutAway']:
+            self.thread.captureVid = True
+            self.thread.start()
+        elif self.thread.isRunning():
+            self.thread.captureVid = False
+            self.thread.quit()
+            self.ui.imageView.setText('Loading Camera...')
+
+
+    # Video image slot
+    @QtCore.pyqtSlot(QtGui.QImage)
+    def setImage(self, image):
+        self.ui.imageView.setPixmap(QtGui.QPixmap.fromImage(image))
 
 
 
