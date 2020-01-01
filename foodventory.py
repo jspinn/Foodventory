@@ -1,11 +1,9 @@
 # This Python file uses the following encoding: utf-8
 import sys
-from PyQt5 import QtWidgets, QtCore, QtSql, uic, QtGui
+from PyQt5 import QtWidgets, QtCore, QtSql, QtGui
 from datetime import datetime
 import cv2
-import time
 from pyzbar import pyzbar
-from imutils.video import VideoStream
 from ui_MainWindow import Ui_MainWindow
 
 class CameraThread(QtCore.QThread):
@@ -45,66 +43,25 @@ class CameraThread(QtCore.QThread):
 
 
 class MainWindow(QtWidgets.QMainWindow):
+
+    # Tab indexes for stacked widget
+    tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Scanner':4, 'ManualEnter':5}
+
+    # Column indexes
+    columns = {'Name':0, 'Brand':1, 'Location':2, 'Quantity':3, 'Date':4, 'UPC':5}
+
     def __init__(self):
         super(MainWindow,self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
 
-        # Tab indexes for stacked widget
-        self.tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Scanner':4, 'ManualEnter':5}
+        self.setup_database()
 
-        # Set up database
-        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
-        db.setDatabaseName('foodventory.db')
-        db.open()
+        self.setup_table()
 
-        self.query = QtSql.QSqlQuery()
-        self.query.exec_("CREATE TABLE food(name STRING, brand STRING, location STRING, quantity REAL, date STRING, UPC INTEGER)")
+        self.setup_clock()
 
-        self.query.exec_("SELECT * FROM food WHERE location = 'Fridge'")
-
-        self.model = QtSql.QSqlTableModel()
-
-        self.model.setTable('food')
-        self.model.setEditStrategy(QtSql.QSqlTableModel.OnFieldChange)
-        self.model.select()
-
-        # Qtable headers
-        self.model.setHeaderData(0, QtCore.Qt.Horizontal, "Food Item")
-        self.model.setHeaderData(1, QtCore.Qt.Horizontal, "Brand")
-        self.model.setHeaderData(2, QtCore.Qt.Horizontal, "Location")
-        self.model.setHeaderData(3, QtCore.Qt.Horizontal, "Quantity")
-        self.model.setHeaderData(4, QtCore.Qt.Horizontal, "Date")
-        self.model.setHeaderData(5, QtCore.Qt.Horizontal, "UPC")
-
-        self.ui.tableView.setModel(self.model)
-        self.ui.tableView.resizeColumnsToContents()
-        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
-
-
-        # Set initial clock
-        self.date_time()
-
-        # Set timer for clock
-        self.timer = QtCore.QTimer(self)
-        self.timer.timeout.connect(self.date_time)
-        self.timer.start(1000)
-
-        # Setup button connections
         self.setup_connections()
-
-        # Barcode scanner connections
-        self.thread = CameraThread(self)
-        self.thread.changePixmap.connect(self.set_image)
-
-        self.thread.sendUPC.connect(self.receive_barcode)
-
-
-
-    def update_table(self):
-        self.model.select()
-        self.ui.tableView.resizeColumnsToContents()
-        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
 
 
     def setup_connections(self):
@@ -115,14 +72,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.settingsButton.clicked.connect(self.settings_button_pressed)
 
         # Home connections
-        self.ui.takeOutButton.clicked.connect(self.take_out_button_pressed)
-
         self.ui.manualButton.clicked.connect(self.manual_enter_button_pressed)
         self.ui.manualAddButton.clicked.connect(self.manual_add_button_pressed)
         self.ui.manualCancelButton.clicked.connect(self.manual_cancel_button_pressed)
         self.ui.barcodeScanButton.clicked.connect(self.barcode_scan_button_pressed)
 
-        self.ui.putAwayButton.clicked.connect(self.put_away_button_pressed)
+        self.ui.scanButton.clicked.connect(self.scan_button_pressed)
 
         # Inventory connections
         self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
@@ -132,6 +87,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # List connections
         self.ui.addButton.clicked.connect(self.add_button_pressed)
+        self.ui.listEdit.returnPressed.connect(self.add_button_pressed)
         self.ui.deleteButton.clicked.connect(self.delete_button_pressed)
         self.ui.clearButton.clicked.connect(self.clear_button_pressed)
 
@@ -140,6 +96,66 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
 
+        # Barcode scanner connections
+        self.thread = CameraThread(self)
+        self.thread.changePixmap.connect(self.set_image)
+
+        self.thread.sendUPC.connect(self.receive_barcode)
+
+    def setup_database(self):
+        db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
+        db.setDatabaseName('foodventory.db')
+        db.open()
+
+        self.query = QtSql.QSqlQuery()
+        self.query.exec_("CREATE TABLE food(name TEXT, brand TEXT, location TEXT, quantity REAL, date TEXT, UPC TEXT)")
+        self.query.exec_("CREATE TABLE list(item TEXT)")
+
+        self.model = QtSql.QSqlTableModel()
+        self.listModel = QtSql.QSqlTableModel()
+
+        self.model.setTable('food')
+        self.listModel.setTable('list')
+
+        self.model.setEditStrategy(QtSql.QSqlTableModel.OnFieldChange)
+        self.listModel.setEditStrategy(QtSql.QSqlTableModel.OnFieldChange)
+
+        self.model.select()
+        self.listModel.select()
+
+    def setup_clock(self):
+        # Set initial clock
+        self.date_time()
+
+        # Set timer for clock
+        self.timer = QtCore.QTimer(self)
+        self.timer.timeout.connect(self.date_time)
+        self.timer.start(1000)
+
+    def setup_table(self):
+        # Setup inventory table
+        self.model.setHeaderData(self.columns['Name'], QtCore.Qt.Horizontal, "Food Item")
+        self.model.setHeaderData(self.columns['Brand'], QtCore.Qt.Horizontal, "Brand")
+        self.model.setHeaderData(self.columns['Location'], QtCore.Qt.Horizontal, "Location")
+        self.model.setHeaderData(self.columns['Quantity'], QtCore.Qt.Horizontal, "Qty")
+        self.model.setHeaderData(self.columns['Date'], QtCore.Qt.Horizontal, "Date")
+        self.model.setHeaderData(self.columns['UPC'], QtCore.Qt.Horizontal, "UPC")
+
+        self.ui.tableView.setModel(self.model)
+        self.ui.tableView.resizeColumnsToContents()
+        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
+
+        # Setup list table
+        self.ui.listTable.setModel(self.listModel)
+        self.ui.listTable.horizontalHeader().hide()
+        self.ui.listTable.horizontalHeader().setStretchLastSection(True)
+        self.ui.listTable.setShowGrid(False)
+
+
+    def update_table(self):
+        self.model.select()
+        self.ui.tableView.resizeColumnsToContents()
+        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
 
     def date_time(self):
         self.now = datetime.now()
@@ -147,11 +163,11 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.dayLabel.setText(self.now.strftime("%A"))
         self.ui.dateLabel.setText(self.now.strftime("%m/%d/%y"))
 
-    def find(self, searchText, column=0):
+    def find(self, searchText, column=0, match=QtCore.Qt.MatchContains):
         start = self.model.index(0, column)
         return self.model.match(
             start, QtCore.Qt.DisplayRole,
-            searchText, -1, QtCore.Qt.MatchContains)
+            searchText, -1, match)
 
     # SLOTS
 
@@ -170,7 +186,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Settings'])
 
     # Home slots
-    def put_away_button_pressed(self):
+    def scan_button_pressed(self):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Scanner'])
 
     def manual_enter_button_pressed(self):
@@ -181,7 +197,7 @@ class MainWindow(QtWidgets.QMainWindow):
         name = self.ui.nameLineEdit.text()
         brand = self.ui.brandLineEdit.text()
         location = self.ui.locationLineEdit.text()
-        upc = self.ui.upcLineEdit.text()
+        upc =  self.ui.upcLineEdit.text()
         date = self.now.strftime("%m/%d/%y")
 
         # Insert into database
@@ -219,9 +235,6 @@ class MainWindow(QtWidgets.QMainWindow):
     def barcode_scan_button_pressed(self):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Scanner'])
 
-    def take_out_button_pressed(self):
-        pass
-
     # Inventory slots
     def inv_delete_button_pressed(self):
         self.model.removeRow(self.ui.tableView.currentIndex().row())
@@ -244,20 +257,35 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # List slots
     def add_button_pressed(self):
-        self.ui.listWidget.addItem(u"\u2022 " + self.ui.listEdit.text())
+        listItem = self.ui.listEdit.text()
+        self.query.prepare("INSERT INTO list (item) VALUES(:item)")
+
+        self.query.bindValue(":item", listItem)
+
+        self.query.exec_()
+
+        self.listModel.select()
+
         self.ui.listEdit.clear()
+        self.ui.listEdit.setFocus()
 
     def delete_button_pressed(self):
-        self.ui.listWidget.takeItem(self.ui.listWidget.currentRow())
+        self.listModel.removeRow(self.ui.listTable.currentIndex().row())
+        self.listModel.select()
 
     def clear_button_pressed(self):
-        self.ui.listWidget.clear()
+
+        for row in range(self.listModel.rowCount()):
+            self.listModel.removeRow(row)
+
+        self.listModel.select()
+
 
     # Settings slots
     def exit_button_pressed(self):
         self.close()
 
-    # Barcode scanner slot
+    # Open/close camera when tabs changed
     def stack_index_changed(self, index):
         if index == self.tabs['Scanner']:
             self.thread.captureVid = True
@@ -276,8 +304,19 @@ class MainWindow(QtWidgets.QMainWindow):
     @QtCore.pyqtSlot(str)
     def receive_barcode(self, upc):
 
-        self.ui.stackedWidget.setCurrentIndex(self.tabs['ManualEnter'])
-        self.ui.upcLineEdit.setText(upc)
+        searchItems = self.find(upc, self.columns['UPC'], QtCore.Qt.MatchContains)
+
+        if searchItems:
+            self.ui.stackedWidget.setCurrentIndex(self.tabs['Inventory'])
+            index = searchItems[0]
+
+            self.ui.tableView.selectRow(index.row())
+
+        else:
+            self.ui.stackedWidget.setCurrentIndex(self.tabs['ManualEnter'])
+            self.ui.upcLineEdit.setText(upc)
+
+            # ADD ONLINE NAME SEARCH HERE
 
 
 

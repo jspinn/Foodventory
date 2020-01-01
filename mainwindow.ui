@@ -25,9 +25,9 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>79</x>
+      <x>68</x>
       <y>0</y>
-      <width>722</width>
+      <width>732</width>
       <height>480</height>
      </rect>
     </property>
@@ -38,8 +38,8 @@
      <widget class="QWidget" name="verticalLayoutWidget">
       <property name="geometry">
        <rect>
-        <x>90</x>
-        <y>20</y>
+        <x>130</x>
+        <y>30</y>
         <width>461</width>
         <height>237</height>
        </rect>
@@ -92,11 +92,11 @@
        </item>
       </layout>
      </widget>
-     <widget class="QPushButton" name="putAwayButton">
+     <widget class="QPushButton" name="scanButton">
       <property name="geometry">
        <rect>
-        <x>50</x>
-        <y>310</y>
+        <x>230</x>
+        <y>320</y>
         <width>271</width>
         <height>111</height>
        </rect>
@@ -107,25 +107,7 @@
        </font>
       </property>
       <property name="text">
-       <string>PUT AWAY</string>
-      </property>
-     </widget>
-     <widget class="QPushButton" name="takeOutButton">
-      <property name="geometry">
-       <rect>
-        <x>350</x>
-        <y>310</y>
-        <width>271</width>
-        <height>111</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>20</pointsize>
-       </font>
-      </property>
-      <property name="text">
-       <string>TAKE OUT</string>
+       <string>SCAN</string>
       </property>
      </widget>
     </widget>
@@ -133,9 +115,9 @@
      <widget class="QTableView" name="tableView">
       <property name="geometry">
        <rect>
-        <x>0</x>
+        <x>-1</x>
         <y>0</y>
-        <width>654</width>
+        <width>667</width>
         <height>441</height>
        </rect>
       </property>
@@ -151,7 +133,7 @@
      <widget class="QPushButton" name="invAddButton">
       <property name="geometry">
        <rect>
-        <x>652</x>
+        <x>664</x>
         <y>0</y>
         <width>71</width>
         <height>101</height>
@@ -164,7 +146,7 @@
      <widget class="QPushButton" name="invDeleteButton">
       <property name="geometry">
        <rect>
-        <x>652</x>
+        <x>664</x>
         <y>98</y>
         <width>71</width>
         <height>101</height>
@@ -177,9 +159,9 @@
      <widget class="QLineEdit" name="invSearchLineEdit">
       <property name="geometry">
        <rect>
-        <x>130</x>
+        <x>70</x>
         <y>440</y>
-        <width>212</width>
+        <width>272</width>
         <height>41</height>
        </rect>
       </property>
@@ -197,7 +179,7 @@
        <rect>
         <x>340</x>
         <y>439</y>
-        <width>185</width>
+        <width>250</width>
         <height>43</height>
        </rect>
       </property>
@@ -207,21 +189,6 @@
      </widget>
     </widget>
     <widget class="QWidget" name="list">
-     <widget class="QListWidget" name="listWidget">
-      <property name="geometry">
-       <rect>
-        <x>50</x>
-        <y>50</y>
-        <width>421</width>
-        <height>391</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>12</pointsize>
-       </font>
-      </property>
-     </widget>
      <widget class="QLineEdit" name="listEdit">
       <property name="geometry">
        <rect>
@@ -279,13 +246,23 @@
        <string>Clear</string>
       </property>
      </widget>
+     <widget class="QTableView" name="listTable">
+      <property name="geometry">
+       <rect>
+        <x>50</x>
+        <y>50</y>
+        <width>421</width>
+        <height>390</height>
+       </rect>
+      </property>
+     </widget>
     </widget>
     <widget class="QWidget" name="settings">
      <widget class="QPushButton" name="exitButton">
       <property name="geometry">
        <rect>
-        <x>530</x>
-        <y>380</y>
+        <x>550</x>
+        <y>370</y>
         <width>141</width>
         <height>81</height>
        </rect>
@@ -299,7 +276,7 @@
      <widget class="QPushButton" name="manualButton">
       <property name="geometry">
        <rect>
-        <x>220</x>
+        <x>230</x>
         <y>390</y>
         <width>221</width>
         <height>71</height>
@@ -312,7 +289,7 @@
      <widget class="QLabel" name="imageView">
       <property name="geometry">
        <rect>
-        <x>20</x>
+        <x>30</x>
         <y>20</y>
         <width>640</width>
         <height>355</height>
@@ -330,8 +307,8 @@
      <widget class="QLineEdit" name="nameLineEdit">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>50</y>
+        <x>70</x>
+        <y>60</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -348,8 +325,8 @@
      <widget class="QLineEdit" name="brandLineEdit">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>110</y>
+        <x>70</x>
+        <y>120</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -366,8 +343,8 @@
      <widget class="QLineEdit" name="upcLineEdit">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>170</y>
+        <x>70</x>
+        <y>180</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -376,9 +353,6 @@
        <font>
         <pointsize>10</pointsize>
        </font>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhDigitsOnly</set>
       </property>
       <property name="placeholderText">
        <string>UPC</string>
@@ -390,8 +364,8 @@
      <widget class="QLineEdit" name="locationLineEdit">
       <property name="geometry">
        <rect>
-        <x>40</x>
-        <y>230</y>
+        <x>70</x>
+        <y>240</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -414,8 +388,8 @@
      <widget class="QPushButton" name="manualAddButton">
       <property name="geometry">
        <rect>
-        <x>480</x>
-        <y>50</y>
+        <x>510</x>
+        <y>60</y>
         <width>131</width>
         <height>81</height>
        </rect>
@@ -427,8 +401,8 @@
      <widget class="QPushButton" name="manualCancelButton">
       <property name="geometry">
        <rect>
-        <x>480</x>
-        <y>170</y>
+        <x>510</x>
+        <y>180</y>
         <width>131</width>
         <height>81</height>
        </rect>
@@ -440,8 +414,8 @@
      <widget class="QLabel" name="label">
       <property name="geometry">
        <rect>
-        <x>300</x>
-        <y>50</y>
+        <x>330</x>
+        <y>60</y>
         <width>81</width>
         <height>31</height>
        </rect>
@@ -458,8 +432,8 @@
      <widget class="QPushButton" name="barcodeScanButton">
       <property name="geometry">
        <rect>
-        <x>270</x>
-        <y>220</y>
+        <x>300</x>
+        <y>230</y>
         <width>131</width>
         <height>81</height>
        </rect>
@@ -471,8 +445,8 @@
      <widget class="QDoubleSpinBox" name="quantitySpinBox">
       <property name="geometry">
        <rect>
-        <x>250</x>
-        <y>100</y>
+        <x>280</x>
+        <y>110</y>
         <width>181</width>
         <height>91</height>
        </rect>
@@ -496,7 +470,7 @@
      <rect>
       <x>-1</x>
       <y>-1</y>
-      <width>82</width>
+      <width>70</width>
       <height>123</height>
      </rect>
     </property>
@@ -514,7 +488,7 @@
      <rect>
       <x>-1</x>
       <y>119</y>
-      <width>82</width>
+      <width>70</width>
       <height>122</height>
      </rect>
     </property>
@@ -524,7 +498,7 @@
      </font>
     </property>
     <property name="text">
-     <string>INVENTORY</string>
+     <string>INV</string>
     </property>
    </widget>
    <widget class="QPushButton" name="listButton">
@@ -532,7 +506,7 @@
      <rect>
       <x>-1</x>
       <y>238</y>
-      <width>82</width>
+      <width>70</width>
       <height>123</height>
      </rect>
     </property>
@@ -550,7 +524,7 @@
      <rect>
       <x>-1</x>
       <y>358</y>
-      <width>82</width>
+      <width>70</width>
       <height>124</height>
      </rect>
     </property>
