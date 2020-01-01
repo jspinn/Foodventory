@@ -295,7 +295,7 @@
       </property>
      </widget>
     </widget>
-    <widget class="QWidget" name="putAway">
+    <widget class="QWidget" name="scanner">
      <widget class="QPushButton" name="manualButton">
       <property name="geometry">
        <rect>
@@ -379,9 +379,6 @@
       </property>
       <property name="inputMethodHints">
        <set>Qt::ImhDigitsOnly</set>
-      </property>
-      <property name="maxLength">
-       <number>12</number>
       </property>
       <property name="placeholderText">
        <string>UPC</string>
@@ -486,6 +483,19 @@
       </property>
       <property name="text">
        <string>Quantity</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="barcodeScanButton">
+      <property name="geometry">
+       <rect>
+        <x>270</x>
+        <y>220</y>
+        <width>131</width>
+        <height>81</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Barcode Scan</string>
       </property>
      </widget>
     </widget>

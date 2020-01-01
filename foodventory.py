@@ -10,12 +10,13 @@ from ui_MainWindow import Ui_MainWindow
 
 class CameraThread(QtCore.QThread):
     changePixmap = QtCore.pyqtSignal(QtGui.QImage)
+    sendUPC = QtCore.pyqtSignal(str)
 
     captureVid = True
 
     def run(self):
 #        cap = VideoStream(src=0).start()
-        cap = cv2.VideoCapture(0)
+        cap = cv2.VideoCapture(1)
 
         while self.captureVid:
             ret, frame = cap.read()
@@ -34,8 +35,8 @@ class CameraThread(QtCore.QThread):
 
                 for barcode in barcodes:
                     barcodeData = barcode.data.decode('utf-8')
-                    print(barcodeData)
-                    cv2.imshow("Scan", frame)
+
+                    self.sendUPC.emit(barcodeData)
 
         cap.release()
         cv2.destroyAllWindows()
@@ -50,7 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         # Tab indexes for stacked widget
-        self.tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'PutAway':4, 'ManualEnter':5}
+        self.tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Scanner':4, 'ManualEnter':5}
 
         # Set up database
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -92,8 +93,11 @@ class MainWindow(QtWidgets.QMainWindow):
         # Setup button connections
         self.setup_connections()
 
+        # Barcode scanner connections
         self.thread = CameraThread(self)
-        self.thread.changePixmap.connect(self.setImage)
+        self.thread.changePixmap.connect(self.set_image)
+
+        self.thread.sendUPC.connect(self.receive_barcode)
 
 
 
@@ -116,6 +120,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.manualButton.clicked.connect(self.manual_enter_button_pressed)
         self.ui.manualAddButton.clicked.connect(self.manual_add_button_pressed)
         self.ui.manualCancelButton.clicked.connect(self.manual_cancel_button_pressed)
+        self.ui.barcodeScanButton.clicked.connect(self.barcode_scan_button_pressed)
 
         self.ui.putAwayButton.clicked.connect(self.put_away_button_pressed)
 
@@ -166,7 +171,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Home slots
     def put_away_button_pressed(self):
-        self.ui.stackedWidget.setCurrentIndex(self.tabs['PutAway'])
+        self.ui.stackedWidget.setCurrentIndex(self.tabs['Scanner'])
 
     def manual_enter_button_pressed(self):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['ManualEnter'])
@@ -205,7 +210,14 @@ class MainWindow(QtWidgets.QMainWindow):
         self.inv_button_pressed()
 
     def manual_cancel_button_pressed(self):
+        self.ui.nameLineEdit.clear()
+        self.ui.brandLineEdit.clear()
+        self.ui.upcLineEdit.clear()
+        self.ui.locationLineEdit.clear()
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Home'])
+
+    def barcode_scan_button_pressed(self):
+        self.ui.stackedWidget.setCurrentIndex(self.tabs['Scanner'])
 
     def take_out_button_pressed(self):
         pass
@@ -247,7 +259,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Barcode scanner slot
     def stack_index_changed(self, index):
-        if index == self.tabs['PutAway']:
+        if index == self.tabs['Scanner']:
             self.thread.captureVid = True
             self.thread.start()
         elif self.thread.isRunning():
@@ -258,8 +270,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Video image slot
     @QtCore.pyqtSlot(QtGui.QImage)
-    def setImage(self, image):
+    def set_image(self, image):
         self.ui.imageView.setPixmap(QtGui.QPixmap.fromImage(image))
+
+    @QtCore.pyqtSlot(str)
+    def receive_barcode(self, upc):
+
+        self.ui.stackedWidget.setCurrentIndex(self.tabs['ManualEnter'])
+        self.ui.upcLineEdit.setText(upc)
 
 
 
