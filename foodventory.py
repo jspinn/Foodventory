@@ -5,6 +5,7 @@ from datetime import datetime
 import cv2
 from pyzbar import pyzbar
 from ui_MainWindow import Ui_MainWindow
+from weather import Weather
 
 class CameraThread(QtCore.QThread):
     changePixmap = QtCore.pyqtSignal(QtGui.QImage)
@@ -13,7 +14,6 @@ class CameraThread(QtCore.QThread):
     captureVid = True
 
     def run(self):
-#        cap = VideoStream(src=0).start()
         cap = cv2.VideoCapture(0)
 
         while self.captureVid:
@@ -61,7 +61,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setup_clock()
 
+        self.setup_weather()
+
         self.setup_connections()
+
+
 
 
     def setup_connections(self):
@@ -131,6 +135,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer = QtCore.QTimer(self)
         self.timer.timeout.connect(self.date_time)
         self.timer.start(1000)
+
+    def setup_weather(self):
+        self.weather = Weather("92620") # zip code - REPLACE WITH SETTINGS
+        self.update_weather()
+
+        self.weatherTimer = QtCore.QTimer(self)
+        self.weatherTimer.timeout.connect(self.update_weather)
+        self.weatherTimer.start(18000000) # 5 hours - REPLACE WITH SETTINGS
+
+    def update_weather(self):
+        self.weather.set_weather_page()
+
+        self.ui.tempLabel.setText(self.weather.get_temp())
+        self.ui.weatherPhraseLabel.setText(self.weather.get_phrase())
 
     def setup_table(self):
         # Setup inventory table
