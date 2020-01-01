@@ -16,7 +16,7 @@ class CameraThread(QtCore.QThread):
 
     def run(self):
 #        cap = VideoStream(src=0).start()
-        cap = cv2.VideoCapture(1)
+        cap = cv2.VideoCapture(0)
 
         while self.captureVid:
             ret, frame = cap.read()
