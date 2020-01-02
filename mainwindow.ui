@@ -32,7 +32,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>3</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="home">
      <widget class="QWidget" name="verticalLayoutWidget">
@@ -41,7 +41,7 @@
         <x>10</x>
         <y>30</y>
         <width>381</width>
-        <height>421</height>
+        <height>251</height>
        </rect>
       </property>
       <layout class="QVBoxLayout" name="verticalLayout">
@@ -95,8 +95,8 @@
      <widget class="QPushButton" name="scanButton">
       <property name="geometry">
        <rect>
-        <x>420</x>
-        <y>300</y>
+        <x>220</x>
+        <y>310</y>
         <width>271</width>
         <height>131</height>
        </rect>
@@ -113,7 +113,7 @@
      <widget class="QWidget" name="verticalLayoutWidget_2">
       <property name="geometry">
        <rect>
-        <x>400</x>
+        <x>390</x>
         <y>60</y>
         <width>320</width>
         <height>221</height>
@@ -124,7 +124,7 @@
         <widget class="QLabel" name="cityLabel">
          <property name="font">
           <font>
-           <pointsize>30</pointsize>
+           <pointsize>25</pointsize>
           </font>
          </property>
          <property name="text">
