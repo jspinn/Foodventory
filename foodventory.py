@@ -18,9 +18,12 @@ class CameraThread(QtCore.QThread):
         cap = cv2.VideoCapture(0)
 
         while self.captureVid:
-            ret, frame = cap.read()
+            captured, frame = cap.read()
 
-            if ret:
+            if captured:
+                if self.rotation:
+                   frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
+
                 rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
                 h, w, ch = rgbImage.shape
                 bytesPerLine = ch * w
@@ -40,6 +43,10 @@ class CameraThread(QtCore.QThread):
         cap.release()
         cv2.destroyAllWindows()
 
+    @QtCore.pyqtSlot(bool)
+    def receive_rotation(self, rotation):
+        self.rotation = rotation
+
 
 
 
@@ -55,6 +62,8 @@ class MainWindow(QtWidgets.QMainWindow):
 
     settings = QtCore.QSettings("jspinn", "Foodventory")
 
+    send_rotation = QtCore.pyqtSignal(bool)
+
     def __init__(self):
         super(MainWindow,self).__init__()
         self.ui = Ui_MainWindow()
@@ -64,10 +73,12 @@ class MainWindow(QtWidgets.QMainWindow):
         if self.settings.value('firstLaunch', True, type=bool):
             self.settings.setValue('ZIP', self.DEFAULT_ZIP)
             self.settings.setValue('fullscreen', True)
+            self.settings.setValue('rotateCamera', False)
             self.settings.setValue('firstLaunch', False)
 
 
         self.ui.fullscreenOffButton.setChecked(not self.settings.value('fullscreen', type=bool))
+        self.ui.rotateCameraOnButton.setChecked(self.settings.value('rotateCamera', type=bool))
         self.ui.zipEdit.setText(self.settings.value('ZIP'))
 
         self.setup_database()
@@ -116,6 +127,8 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.saveZipButton.clicked.connect(self.save_zip_button_pressed)
         self.ui.fullscreenOnButton.pressed.connect(self.fullscreen_on_button_pressed)
         self.ui.fullscreenOffButton.pressed.connect(self.fullscreen_off_button_pressed)
+        self.ui.rotateCameraOnButton.pressed.connect(self.rotate_camera_on_button_pressed)
+        self.ui.rotateCameraOffButton.pressed.connect(self.rotate_camera_off_button_pressed)
 
         self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
 
@@ -124,6 +137,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.thread.changePixmap.connect(self.set_image)
 
         self.thread.sendUPC.connect(self.receive_barcode)
+        self.send_rotation.connect(self.thread.receive_rotation)
 
     def setup_database(self):
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -356,9 +370,16 @@ class MainWindow(QtWidgets.QMainWindow):
         self.showNormal()
         self.ui.fullscreenOffButton.setChecked(True)
 
+    def rotate_camera_on_button_pressed(self):
+        self.settings.setValue('rotateCamera', True)
+
+    def rotate_camera_off_button_pressed(self):
+        self.settings.setValue('rotateCamera', False)
+
     # Open/close camera when tabs changed
     def stack_index_changed(self, index):
         if index == self.tabs['Scanner']:
+            self.send_rotation.emit(self.settings.value('rotateCamera', type=bool))
             self.thread.captureVid = True
             self.thread.start()
         elif self.thread.isRunning():
