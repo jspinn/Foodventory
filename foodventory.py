@@ -1,5 +1,6 @@
 # This Python file uses the following encoding: utf-8
 import sys
+import requests
 from PyQt5 import QtWidgets, QtCore, QtSql, QtGui
 from datetime import datetime
 import cv2
@@ -50,10 +51,24 @@ class MainWindow(QtWidgets.QMainWindow):
     # Column indexes
     columns = {'Name':0, 'Brand':1, 'Location':2, 'Quantity':3, 'Date':4, 'UPC':5}
 
+    DEFAULT_ZIP = '98101'
+
+    settings = QtCore.QSettings("jspinn", "Foodventory")
+
     def __init__(self):
         super(MainWindow,self).__init__()
         self.ui = Ui_MainWindow()
         self.ui.setupUi(self)
+
+        # Set default settings if first launch
+        if self.settings.value('firstLaunch', True, type=bool):
+            self.settings.setValue('ZIP', self.DEFAULT_ZIP)
+            self.settings.setValue('fullscreen', True)
+            self.settings.setValue('firstLaunch', False)
+
+
+        self.ui.fullscreenOffButton.setChecked(not self.settings.value('fullscreen', type=bool))
+        self.ui.zipEdit.setText(self.settings.value('ZIP'))
 
         self.setup_database()
 
@@ -80,6 +95,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.manualAddButton.clicked.connect(self.manual_add_button_pressed)
         self.ui.manualCancelButton.clicked.connect(self.manual_cancel_button_pressed)
         self.ui.barcodeScanButton.clicked.connect(self.barcode_scan_button_pressed)
+        self.ui.updateWeatherButton.clicked.connect(self.update_weather)
 
         self.ui.scanButton.clicked.connect(self.scan_button_pressed)
 
@@ -97,6 +113,9 @@ class MainWindow(QtWidgets.QMainWindow):
 
         # Settings connections
         self.ui.exitButton.clicked.connect(self.exit_button_pressed)
+        self.ui.saveZipButton.clicked.connect(self.save_zip_button_pressed)
+        self.ui.fullscreenOnButton.pressed.connect(self.fullscreen_on_button_pressed)
+        self.ui.fullscreenOffButton.pressed.connect(self.fullscreen_off_button_pressed)
 
         self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
 
@@ -137,18 +156,37 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer.start(1000)
 
     def setup_weather(self):
-        self.weather = Weather("92620") # zip code - REPLACE WITH SETTINGS
+        self.weather = Weather(self.settings.value('ZIP')) # zip code - REPLACE WITH SETTINGS
         self.update_weather()
 
         self.weatherTimer = QtCore.QTimer(self)
         self.weatherTimer.timeout.connect(self.update_weather)
-        self.weatherTimer.start(18000000) # 5 hours - REPLACE WITH SETTINGS
+        self.weatherTimer.start(3600000) # 1 hour in ms - REPLACE WITH SETTINGS
 
     def update_weather(self):
-        self.weather.set_weather_page()
+        try:
+            self.weather.set_weather_page()
 
-        self.ui.tempLabel.setText(self.weather.get_temp())
-        self.ui.weatherPhraseLabel.setText(self.weather.get_phrase())
+            self.ui.cityLabel.setText(self.weather.get_city())
+            self.ui.tempLabel.setText(self.weather.get_temp())
+            self.ui.weatherPhraseLabel.setText(self.weather.get_phrase())
+
+        except requests.HTTPError:
+            self.ui.cityLabel.clear()
+            self.ui.tempLabel.setText("Invalid ZIP")
+            self.ui.weatherPhraseLabel.setText("Set ZIP code in settings")
+
+        except requests.ConnectionError:
+            self.ui.cityLabel.clear()
+            self.ui.tempLabel.clear()
+            self.ui.weatherPhraseLabel.setText("Connection Error")
+
+        except:
+            self.ui.cityLabel.clear()
+            self.ui.tempLabel.clear()
+            self.ui.weatherPhraseLabel.setText("Error")
+
+
 
     def setup_table(self):
         # Setup inventory table
@@ -303,6 +341,21 @@ class MainWindow(QtWidgets.QMainWindow):
     def exit_button_pressed(self):
         self.close()
 
+    def save_zip_button_pressed(self):
+        self.settings.setValue('ZIP', self.ui.zipEdit.text())
+        self.weather.zip = self.ui.zipEdit.text()
+        self.update_weather()
+
+    def fullscreen_on_button_pressed(self):
+        self.settings.setValue('fullscreen', True)
+        self.setWindowState(QtCore.Qt.WindowFullScreen)
+        self.ui.fullscreenOnButton.setChecked(True)
+
+    def fullscreen_off_button_pressed(self):
+        self.settings.setValue('fullscreen', False)
+        self.showNormal()
+        self.ui.fullscreenOffButton.setChecked(True)
+
     # Open/close camera when tabs changed
     def stack_index_changed(self, index):
         if index == self.tabs['Scanner']:
@@ -342,5 +395,8 @@ class MainWindow(QtWidgets.QMainWindow):
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
     window = MainWindow()
-    window.show()
+    if window.settings.value('fullscreen', type=bool):
+        window.showFullScreen()
+    else:
+        window.show()
     sys.exit(app.exec_())
