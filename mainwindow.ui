@@ -213,7 +213,7 @@
       <property name="geometry">
        <rect>
         <x>664</x>
-        <y>0</y>
+        <y>-1</y>
         <width>71</width>
         <height>101</height>
        </rect>
@@ -226,7 +226,7 @@
       <property name="geometry">
        <rect>
         <x>664</x>
-        <y>98</y>
+        <y>97</y>
         <width>71</width>
         <height>101</height>
        </rect>
@@ -264,6 +264,19 @@
       </property>
       <property name="text">
        <string>Find</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="invInstructionsButton">
+      <property name="geometry">
+       <rect>
+        <x>664</x>
+        <y>270</y>
+        <width>71</width>
+        <height>101</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Instruct</string>
       </property>
      </widget>
     </widget>
@@ -535,7 +548,7 @@
        <string notr="true">rotateCameraButtonGroup</string>
       </attribute>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="rotateCameraLabel">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -585,7 +598,7 @@
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>60</y>
+        <y>20</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -603,7 +616,7 @@
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>120</y>
+        <y>80</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -621,7 +634,7 @@
       <property name="geometry">
        <rect>
         <x>70</x>
-        <y>180</y>
+        <y>260</y>
         <width>171</width>
         <height>41</height>
        </rect>
@@ -638,35 +651,11 @@
        <bool>false</bool>
       </property>
      </widget>
-     <widget class="QLineEdit" name="locationLineEdit">
-      <property name="geometry">
-       <rect>
-        <x>70</x>
-        <y>240</y>
-        <width>171</width>
-        <height>41</height>
-       </rect>
-      </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
-      <property name="inputMethodHints">
-       <set>Qt::ImhDigitsOnly</set>
-      </property>
-      <property name="placeholderText">
-       <string>Location</string>
-      </property>
-      <property name="clearButtonEnabled">
-       <bool>false</bool>
-      </property>
-     </widget>
      <widget class="QPushButton" name="manualAddButton">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>60</y>
+        <x>540</x>
+        <y>130</y>
         <width>131</width>
         <height>81</height>
        </rect>
@@ -678,8 +667,8 @@
      <widget class="QPushButton" name="manualCancelButton">
       <property name="geometry">
        <rect>
-        <x>510</x>
-        <y>180</y>
+        <x>540</x>
+        <y>250</y>
         <width>131</width>
         <height>81</height>
        </rect>
@@ -710,7 +699,7 @@
       <property name="geometry">
        <rect>
         <x>300</x>
-        <y>230</y>
+        <y>220</y>
         <width>131</width>
         <height>81</height>
        </rect>
@@ -738,6 +727,49 @@
       </property>
       <property name="value">
        <double>1.000000000000000</double>
+      </property>
+     </widget>
+     <widget class="QTextEdit" name="instructionsEdit">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>320</y>
+        <width>391</width>
+        <height>151</height>
+       </rect>
+      </property>
+      <property name="placeholderText">
+       <string>Instructions...</string>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="categoryComboBox">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>140</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
+      </property>
+     </widget>
+     <widget class="QComboBox" name="locationComboBox">
+      <property name="geometry">
+       <rect>
+        <x>70</x>
+        <y>200</y>
+        <width>171</width>
+        <height>41</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>14</pointsize>
+       </font>
       </property>
      </widget>
     </widget>

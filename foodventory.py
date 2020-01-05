@@ -7,6 +7,7 @@ import cv2
 from pyzbar import pyzbar
 from ui_MainWindow import Ui_MainWindow
 from weather import Weather
+from instructionDialog import instructionDialog
 
 class CameraThread(QtCore.QThread):
     changePixmap = QtCore.pyqtSignal(QtGui.QImage)
@@ -56,7 +57,7 @@ class MainWindow(QtWidgets.QMainWindow):
     tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Scanner':4, 'ManualEnter':5}
 
     # Column indexes
-    columns = {'Name':0, 'Brand':1, 'Location':2, 'Quantity':3, 'Date':4, 'UPC':5}
+    columns = {'Name':0, 'Brand':1, 'Category':2, 'Location':3, 'Quantity':4, 'Date':5, 'UPC':6, 'Instructions':7}
 
     DEFAULT_ZIP = '98101'
 
@@ -75,6 +76,18 @@ class MainWindow(QtWidgets.QMainWindow):
             self.settings.setValue('fullscreen', True)
             self.settings.setValue('rotateCamera', False)
             self.settings.setValue('firstLaunch', False)
+
+            categories = ['Dry Goods', 'Meat', 'Veggies', 'Fruit', 'Dairy', 'Prepared', 'Other']
+            self.settings.setValue('categories', categories)
+
+            locations = ['Fridge', 'Freezer', 'Pantry']
+            self.settings.setValue('locations', locations)
+
+        for category in self.settings.value('categories', type=list):
+            self.ui.categoryComboBox.addItem(category)
+
+        for location in self.settings.value('locations', type=list):
+            self.ui.locationComboBox.addItem(location)
 
 
         self.ui.fullscreenOffButton.setChecked(not self.settings.value('fullscreen', type=bool))
@@ -113,6 +126,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Inventory connections
         self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
         self.ui.invAddButton.clicked.connect(self.inv_add_button_pressed)
+        self.ui.invInstructionsButton.clicked.connect(self.inv_instructions_button_pressed)
         self.ui.invFindButton.clicked.connect(self.inv_find_button_pressed)
         self.ui.invSearchLineEdit.returnPressed.connect(self.inv_find_button_pressed)
 
@@ -145,7 +159,7 @@ class MainWindow(QtWidgets.QMainWindow):
         db.open()
 
         self.query = QtSql.QSqlQuery()
-        self.query.exec_("CREATE TABLE food(name TEXT, brand TEXT, location TEXT, quantity REAL, date TEXT, UPC TEXT)")
+        self.query.exec_("CREATE TABLE food(name TEXT, brand TEXT, category TEXT, location TEXT, quantity REAL, date TEXT, UPC TEXT, instructions TEXT)")
         self.query.exec_("CREATE TABLE list(item TEXT)")
 
         self.model = QtSql.QSqlTableModel()
@@ -206,6 +220,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Setup inventory table
         self.model.setHeaderData(self.columns['Name'], QtCore.Qt.Horizontal, "Food Item")
         self.model.setHeaderData(self.columns['Brand'], QtCore.Qt.Horizontal, "Brand")
+        self.model.setHeaderData(self.columns['Category'], QtCore.Qt.Horizontal, "Category")
         self.model.setHeaderData(self.columns['Location'], QtCore.Qt.Horizontal, "Location")
         self.model.setHeaderData(self.columns['Quantity'], QtCore.Qt.Horizontal, "Qty")
         self.model.setHeaderData(self.columns['Date'], QtCore.Qt.Horizontal, "Date")
@@ -213,6 +228,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.resizeColumnsToContents()
+        self.ui.tableView.setColumnHidden(self.columns['Instructions'], True)
         self.ui.tableView.horizontalHeader().setStretchLastSection(True)
 
         # Setup list table
@@ -266,19 +282,24 @@ class MainWindow(QtWidgets.QMainWindow):
         quantity = self.ui.quantitySpinBox.value()
         name = self.ui.nameLineEdit.text()
         brand = self.ui.brandLineEdit.text()
-        location = self.ui.locationLineEdit.text()
+        category = self.ui.categoryComboBox.currentText()
+        location = self.ui.locationComboBox.currentText()
         upc =  self.ui.upcLineEdit.text()
         date = self.now.strftime("%m/%d/%y")
+        instructions = self.ui.instructionsEdit.toPlainText()
 
         # Insert into database
-        self.query.prepare("INSERT INTO food (name, brand, location, quantity, date, upc) VALUES(:name, :brand, :location, :quantity, :date, :upc)")
+        self.query.prepare("INSERT INTO food (name, brand, category, location, quantity, date, upc, instructions) "
+                           "VALUES(:name, :brand, :category, :location, :quantity, :date, :upc, :instructions)")
 
         self.query.bindValue(":quantity", quantity)
         self.query.bindValue(":name", name)
         self.query.bindValue(":brand", brand)
+        self.query.bindValue(":category", category)
         self.query.bindValue(":location", location)
         self.query.bindValue(":date", date)
         self.query.bindValue(":upc", upc)
+        self.query.bindValue(":instructions", instructions)
 
         self.query.exec_()
 
@@ -288,7 +309,6 @@ class MainWindow(QtWidgets.QMainWindow):
         # Clear line edits
         self.ui.nameLineEdit.clear()
         self.ui.brandLineEdit.clear()
-        self.ui.locationLineEdit.clear()
         self.ui.upcLineEdit.clear()
         self.ui.quantitySpinBox.setValue(1.0)
 
@@ -299,8 +319,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.nameLineEdit.clear()
         self.ui.brandLineEdit.clear()
         self.ui.upcLineEdit.clear()
-        self.ui.locationLineEdit.clear()
-        self.ui.stackedWidget.setCurrentIndex(self.tabs['Home'])
+        self.ui.locationComboBox.setCurrentIndex(0)
+        self.ui.categoryComboBox.setCurrentIndex(0)
+        self.ui.stackedWidget.setCurrentIndex(self.tabs['Inventory'])
 
     def barcode_scan_button_pressed(self):
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Scanner'])
@@ -312,6 +333,14 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def inv_add_button_pressed(self):
         self.manual_enter_button_pressed()
+
+    def inv_instructions_button_pressed(self):
+        record = self.model.record(self.ui.tableView.currentIndex().row())
+        instruct = record.value('instructions')
+
+        self.dialog = instructionDialog(instruct)
+        self.dialog.sendInstruct.connect(self.receive_instruct)
+        self.dialog.show()
 
     def inv_find_button_pressed(self):
         searchItems = self.find(self.ui.invSearchLineEdit.text())
@@ -350,6 +379,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.listModel.select()
 
+
+    def receive_instruct(self, instructions):
+        record = self.model.record(self.ui.tableView.currentIndex().row())
+        record.setValue(self.columns['Instructions'], instructions)
+        self.model.setRecord(self.ui.tableView.currentIndex().row(), record)
+        self.model.submitAll()
 
     # Settings slots
     def exit_button_pressed(self):
