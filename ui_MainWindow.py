@@ -123,7 +123,7 @@ class Ui_MainWindow(object):
         self.invInstructionsButton.setObjectName("invInstructionsButton")
         self.pushButton = QtWidgets.QPushButton(self.inventory)
         self.pushButton.setEnabled(False)
-        self.pushButton.setGeometry(QtCore.QRect(1, 0, 26, 34))
+        self.pushButton.setGeometry(QtCore.QRect(1, 0, 45, 33))
         self.pushButton.setText("")
         self.pushButton.setObjectName("pushButton")
         self.stackedWidget.addWidget(self.inventory)
@@ -330,7 +330,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
 
         self.retranslateUi(MainWindow)
-        self.stackedWidget.setCurrentIndex(0)
+        self.stackedWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(MainWindow)
 
     def retranslateUi(self, MainWindow):

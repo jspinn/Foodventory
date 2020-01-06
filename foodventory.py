@@ -195,11 +195,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(self.columns['Instructions'], True)
 
+
         self.ui.tableView.setColumnWidth(self.columns['Name'], 200)
         self.ui.tableView.setColumnWidth(self.columns['Brand'], 150)
         self.ui.tableView.setColumnWidth(self.columns['Category'], 100)
         self.ui.tableView.setColumnWidth(self.columns['Location'], 80)
-        self.ui.tableView.setColumnWidth(self.columns['Quantity'], 5)
+        self.ui.tableView.setColumnWidth(self.columns['Quantity'], 10)
         self.ui.tableView.setColumnWidth(self.columns['Date'], 80)
         self.ui.tableView.setColumnWidth(self.columns['UPC'], 140)
 
