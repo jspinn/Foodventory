@@ -28,9 +28,9 @@
    <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>68</x>
+      <x>58</x>
       <y>0</y>
-      <width>732</width>
+      <width>741</width>
       <height>480</height>
      </rect>
     </property>
@@ -197,7 +197,7 @@
        <rect>
         <x>1</x>
         <y>0</y>
-        <width>661</width>
+        <width>679</width>
         <height>441</height>
        </rect>
       </property>
@@ -219,9 +219,9 @@
      <widget class="QPushButton" name="invAddButton">
       <property name="geometry">
        <rect>
-        <x>661</x>
+        <x>680</x>
         <y>0</y>
-        <width>71</width>
+        <width>60</width>
         <height>101</height>
        </rect>
       </property>
@@ -232,9 +232,9 @@
      <widget class="QPushButton" name="invDeleteButton">
       <property name="geometry">
        <rect>
-        <x>661</x>
+        <x>680</x>
         <y>100</y>
-        <width>71</width>
+        <width>60</width>
         <height>101</height>
        </rect>
       </property>
@@ -276,9 +276,9 @@
      <widget class="QPushButton" name="invInstructionsButton">
       <property name="geometry">
        <rect>
-        <x>661</x>
+        <x>680</x>
         <y>270</y>
-        <width>71</width>
+        <width>60</width>
         <height>101</height>
        </rect>
       </property>
@@ -879,7 +879,7 @@
      <rect>
       <x>0</x>
       <y>0</y>
-      <width>70</width>
+      <width>60</width>
       <height>120</height>
      </rect>
     </property>
@@ -895,7 +895,7 @@
      <rect>
       <x>0</x>
       <y>120</y>
-      <width>70</width>
+      <width>60</width>
       <height>120</height>
      </rect>
     </property>
@@ -911,7 +911,7 @@
      <rect>
       <x>0</x>
       <y>240</y>
-      <width>70</width>
+      <width>60</width>
       <height>120</height>
      </rect>
     </property>
@@ -927,7 +927,7 @@
      <rect>
       <x>0</x>
       <y>360</y>
-      <width>70</width>
+      <width>60</width>
       <height>120</height>
      </rect>
     </property>

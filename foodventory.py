@@ -193,9 +193,20 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(self.columns['UPC'], QtCore.Qt.Horizontal, "UPC")
 
         self.ui.tableView.setModel(self.model)
-        self.ui.tableView.resizeColumnsToContents()
         self.ui.tableView.setColumnHidden(self.columns['Instructions'], True)
-        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
+
+        self.ui.tableView.setColumnWidth(self.columns['Name'], 200)
+        self.ui.tableView.setColumnWidth(self.columns['Brand'], 150)
+        self.ui.tableView.setColumnWidth(self.columns['Category'], 100)
+        self.ui.tableView.setColumnWidth(self.columns['Location'], 80)
+        self.ui.tableView.setColumnWidth(self.columns['Quantity'], 5)
+        self.ui.tableView.setColumnWidth(self.columns['Date'], 80)
+        self.ui.tableView.setColumnWidth(self.columns['UPC'], 140)
+
+
+
+
+
 
         # Setup list table
         self.ui.listTable.setModel(self.listModel)
@@ -206,8 +217,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def update_table(self):
         self.model.select()
-        self.ui.tableView.resizeColumnsToContents()
-        self.ui.tableView.horizontalHeader().setStretchLastSection(True)
+
 
     def date_time(self):
         self.now = datetime.now()
@@ -560,7 +570,7 @@ if __name__ == "__main__":
      QScrollBar:horizontal {
           border: 1px solid #222222;
           background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);
-          height: 25px;
+          height: 30px;
           margin: 0px 16px 0 16px;
      }
 
@@ -605,7 +615,7 @@ if __name__ == "__main__":
      QScrollBar:vertical
      {
            background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);
-           width: 7px;
+           width: 30px;
            margin: 16px 0 16px 0;
            border: 1px solid #222222;
      }
