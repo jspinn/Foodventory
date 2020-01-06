@@ -1,54 +1,13 @@
-# This Python file uses the following encoding: utf-8
 import sys
 import requests
+import bs4
 from PyQt5 import QtWidgets, QtCore, QtSql, QtGui
 from datetime import datetime
-import cv2
-from pyzbar import pyzbar
+
 from ui_MainWindow import Ui_MainWindow
 from weather import Weather
 from instructionDialog import instructionDialog
-
-class CameraThread(QtCore.QThread):
-    changePixmap = QtCore.pyqtSignal(QtGui.QImage)
-    sendUPC = QtCore.pyqtSignal(str)
-
-    captureVid = True
-
-    def run(self):
-        cap = cv2.VideoCapture(0)
-
-        while self.captureVid:
-            captured, frame = cap.read()
-
-            if captured:
-                if self.rotation:
-                   frame = cv2.rotate(frame, cv2.ROTATE_90_CLOCKWISE)
-
-                rgbImage = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
-                h, w, ch = rgbImage.shape
-                bytesPerLine = ch * w
-                convertToQtFormat = QtGui.QImage(rgbImage.data, w, h, bytesPerLine, QtGui.QImage.Format_RGB888)
-                p = convertToQtFormat.scaled(640, 480, QtCore.Qt.KeepAspectRatio)
-                self.changePixmap.emit(p)
-                cv2.waitKey(30)
-
-
-                barcodes = pyzbar.decode(frame)
-
-                for barcode in barcodes:
-                    barcodeData = barcode.data.decode('utf-8')
-
-                    self.sendUPC.emit(barcodeData)
-
-        cap.release()
-        cv2.destroyAllWindows()
-
-    @QtCore.pyqtSlot(bool)
-    def receive_rotation(self, rotation):
-        self.rotation = rotation
-
-
+from camera import CameraThread
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -336,7 +295,7 @@ class MainWindow(QtWidgets.QMainWindow):
     # Inventory slots
     def inv_delete_button_pressed(self):
         self.model.removeRow(self.ui.tableView.currentIndex().row())
-        self.model.select()
+        self.update_table()
 
     def inv_add_button_pressed(self):
         self.manual_enter_button_pressed()
@@ -458,6 +417,28 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.upcLineEdit.setText(upc)
 
             # ADD ONLINE NAME SEARCH HERE
+            page = 'https://www.barcodelookup.com/{}'.format(upc)
+
+            print(page)
+
+
+            try:
+                req = requests.get(page)
+                req.raise_for_status
+
+                barcodePage = bs4.BeautifulSoup(req.text, "html.parser")
+
+                name = barcodePage.find('h4')
+                self.ui.nameLineEdit.setText(name.text)
+
+                brand = barcodePage.findAll('span', class_="product-text")
+                self.ui.brandLineEdit.setText(brand[2].text)
+
+            except requests.HTTPError:
+                print("error")
+
+            except requests.ConnectionError:
+                print("error")
 
 
 
@@ -579,7 +560,7 @@ if __name__ == "__main__":
      QScrollBar:horizontal {
           border: 1px solid #222222;
           background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);
-          height: 7px;
+          height: 25px;
           margin: 0px 16px 0 16px;
      }
 
