@@ -209,6 +209,9 @@
       <property name="sortingEnabled">
        <bool>true</bool>
       </property>
+      <property name="cornerButtonEnabled">
+       <bool>false</bool>
+      </property>
      </widget>
      <widget class="QPushButton" name="invAddButton">
       <property name="geometry">
@@ -278,6 +281,22 @@
       </property>
       <property name="text">
        <string>Instruct</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="pushButton">
+      <property name="enabled">
+       <bool>false</bool>
+      </property>
+      <property name="geometry">
+       <rect>
+        <x>1</x>
+        <y>0</y>
+        <width>27</width>
+        <height>35</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
       </property>
      </widget>
     </widget>
@@ -363,7 +382,7 @@
        <bool>false</bool>
       </property>
       <attribute name="verticalHeaderDefaultSectionSize">
-       <number>30</number>
+       <number>35</number>
       </attribute>
      </widget>
     </widget>
@@ -921,8 +940,8 @@
  <resources/>
  <connections/>
  <buttongroups>
+  <buttongroup name="hideCursorButtonGroup"/>
   <buttongroup name="fullscreenButtonGroup"/>
   <buttongroup name="rotateCameraButtonGroup"/>
-  <buttongroup name="hideCursorButtonGroup"/>
  </buttongroups>
 </ui>
