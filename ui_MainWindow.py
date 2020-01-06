@@ -17,225 +17,7 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setFamily("MS Shell Dlg 2")
         MainWindow.setFont(font)
-        MainWindow.setStyleSheet("QWidget\n"
-"    {\n"
-"        color: #b1b1b1;\n"
-"        background-color: #323232;\n"
-"    }\n"
-"\n"
-"\n"
-"    QWidget:item:selected\n"
-"    {\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"    }\n"
-"\n"
-"    QWidget:disabled\n"
-"    {\n"
-"        color: #404040;\n"
-"        background-color: #323232;\n"
-"    }\n"
-"\n"
-"    QAbstractItemView\n"
-"    {\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0.1 #646464, stop: 1 #5d5d5d);\n"
-"    }\n"
-"\n"
-"    QWidget:focus\n"
-"    {\n"
-"        /*border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #00eaff);*/\n"
-"    }\n"
-"\n"
-"    QLineEdit\n"
-"    {\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #5d5d5d);\n"
-"        padding: 1px;\n"
-"        border-style: solid;\n"
-"        border: 1px solid #1e1e1e;\n"
-"        border-radius: 5;\n"
-"    }\n"
-"\n"
-"    QPushButton\n"
-"    {\n"
-"        color: #b1b1b1;\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);\n"
-"        border-width: 1px;\n"
-"        border-color: #1e1e1e;\n"
-"        border-style: solid;\n"
-"        border-radius: 6;\n"
-"        padding: 3px;\n"
-"        font-size: 12px;\n"
-"        padding-left: 5px;\n"
-"        padding-right: 5px;\n"
-"    }\n"
-"\n"
-"    QPushButton:pressed\n"
-"    {\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2d2d2d, stop: 0.1 #2b2b2b, stop: 0.5 #292929, stop: 0.9 #282828, stop: 1 #252525);\n"
-"    }\n"
-"\n"
-"    QPushButton:checked\n"
-"    {\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2d2d2d, stop: 0.1 #2b2b2b, stop: 0.5 #292929, stop: 0.9 #282828, stop: 1 #252525);\n"
-"    }\n"
-"\n"
-"    QComboBox\n"
-"    {\n"
-"        selection-background-color: #ffaa00;\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);\n"
-"        border-style: solid;\n"
-"        border: 1px solid #1e1e1e;\n"
-"        border-radius: 5;\n"
-"    }\n"
-"\n"
-"    QComboBox:hover,QPushButton:hover\n"
-"    {\n"
-"        border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"    }\n"
-"\n"
-"\n"
-"    QComboBox:on\n"
-"    {\n"
-"        padding-top: 3px;\n"
-"        padding-left: 4px;\n"
-"        background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2d2d2d, stop: 0.1 #2b2b2b, stop: 0.5 #292929, stop: 0.9 #282828, stop: 1 #252525);\n"
-"        selection-background-color: #ffaa00;\n"
-"    }\n"
-"\n"
-"    QComboBox QAbstractItemView\n"
-"    {\n"
-"        border: 2px solid darkgray;\n"
-"        selection-background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"    }\n"
-"\n"
-"    QComboBox::drop-down\n"
-"    {\n"
-"         subcontrol-origin: padding;\n"
-"         subcontrol-position: top right;\n"
-"         width: 15px;\n"
-"\n"
-"         border-left-width: 0px;\n"
-"         border-left-color: darkgray;\n"
-"         border-left-style: solid; /* just a single line */\n"
-"         border-top-right-radius: 3px; /* same radius as the QComboBox */\n"
-"         border-bottom-right-radius: 3px;\n"
-"     }\n"
-"\n"
-"     QTextEdit:focus\n"
-"     {\n"
-"         border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"     }\n"
-"\n"
-"     QScrollBar:horizontal {\n"
-"          border: 1px solid #222222;\n"
-"          background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);\n"
-"          height: 7px;\n"
-"          margin: 0px 16px 0 16px;\n"
-"     }\n"
-"\n"
-"     QScrollBar::handle:horizontal\n"
-"     {\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #ffa02f, stop: 0.5 #00eaff, stop: 1 #ffa02f);\n"
-"           min-height: 20px;\n"
-"           border-radius: 2px;\n"
-"     }\n"
-"\n"
-"     QScrollBar::add-line:horizontal {\n"
-"           border: 1px solid #1b1b19;\n"
-"           border-radius: 2px;\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"           width: 14px;\n"
-"           subcontrol-position: right;\n"
-"           subcontrol-origin: margin;\n"
-"     }\n"
-"\n"
-"     QScrollBar::sub-line:horizontal {\n"
-"           border: 1px solid #1b1b19;\n"
-"           border-radius: 2px;\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"           width: 14px;\n"
-"          subcontrol-position: left;\n"
-"          subcontrol-origin: margin;\n"
-"     }\n"
-"\n"
-"     QScrollBar::right-arrow:horizontal, QScrollBar::left-arrow:horizontal\n"
-"     {\n"
-"           border: 1px solid black;\n"
-"           width: 1px;\n"
-"           height: 1px;\n"
-"           background: white;\n"
-"     }\n"
-"\n"
-"     QScrollBar::add-page:horizontal, QScrollBar::sub-page:horizontal\n"
-"     {\n"
-"           background: none;\n"
-"     }\n"
-"\n"
-"     QScrollBar:vertical\n"
-"     {\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);\n"
-"           width: 7px;\n"
-"           margin: 16px 0 16px 0;\n"
-"           border: 1px solid #222222;\n"
-"     }\n"
-"\n"
-"     QScrollBar::handle:vertical\n"
-"     {\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 0.5 #00eaff, stop: 1 #ffa02f);\n"
-"           min-height: 20px;\n"
-"           border-radius: 2px;\n"
-"     }\n"
-"\n"
-"     QScrollBar::add-line:vertical\n"
-"     {\n"
-"           border: 1px solid #1b1b19;\n"
-"           border-radius: 2px;\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #ffa02f, stop: 1 #00eaff);\n"
-"           height: 14px;\n"
-"           subcontrol-position: bottom;\n"
-"           subcontrol-origin: margin;\n"
-"     }\n"
-"\n"
-"     QScrollBar::sub-line:vertical\n"
-"     {\n"
-"           border: 1px solid #1b1b19;\n"
-"           border-radius: 2px;\n"
-"           background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #00eaff, stop: 1 #ffa02f);\n"
-"           height: 14px;\n"
-"           subcontrol-position: top;\n"
-"           subcontrol-origin: margin;\n"
-"     }\n"
-"\n"
-"     QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical\n"
-"     {\n"
-"           border: 1px solid black;\n"
-"           width: 1px;\n"
-"           height: 1px;\n"
-"           background: white;\n"
-"     }\n"
-"\n"
-"\n"
-"     QScrollBar::add-page:vertical, QScrollBar::sub-page:vertical\n"
-"     {\n"
-"           background: none;\n"
-"     }\n"
-"\n"
-"     QTextEdit\n"
-"     {\n"
-"         background-color: #242424;\n"
-"     }\n"
-"\n"
-"     QHeaderView::section\n"
-"     {\n"
-"         background-color: QLinearGradient(x1:0, y1:0, x2:0, y2:1, stop:0 #616161, stop: 0.5 #505050, stop: 0.6 #434343, stop:1 #656565);\n"
-"         color: white;\n"
-"         padding-left: 4px;\n"
-"         border: 1px solid #6c6c6c;\n"
-"     }\n"
-"\n"
-"\n"
-"     QTableView QTableCornerButton::section{\n"
-"        background: #323232;\n"
-"     }")
+        MainWindow.setStyleSheet("")
         MainWindow.setTabShape(QtWidgets.QTabWidget.Rounded)
         self.centralwidget = QtWidgets.QWidget(MainWindow)
         self.centralwidget.setObjectName("centralwidget")
@@ -245,7 +27,7 @@ class Ui_MainWindow(object):
         self.home = QtWidgets.QWidget()
         self.home.setObjectName("home")
         self.verticalLayoutWidget = QtWidgets.QWidget(self.home)
-        self.verticalLayoutWidget.setGeometry(QtCore.QRect(10, 30, 381, 251))
+        self.verticalLayoutWidget.setGeometry(QtCore.QRect(20, 10, 350, 421))
         self.verticalLayoutWidget.setObjectName("verticalLayoutWidget")
         self.verticalLayout = QtWidgets.QVBoxLayout(self.verticalLayoutWidget)
         self.verticalLayout.setContentsMargins(0, 0, 0, 0)
@@ -254,31 +36,30 @@ class Ui_MainWindow(object):
         font = QtGui.QFont()
         font.setPointSize(50)
         self.timeLabel.setFont(font)
-        self.timeLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.timeLabel.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.timeLabel.setObjectName("timeLabel")
         self.verticalLayout.addWidget(self.timeLabel)
         self.dateLabel = QtWidgets.QLabel(self.verticalLayoutWidget)
         font = QtGui.QFont()
-        font.setPointSize(35)
+        font.setPointSize(40)
         self.dateLabel.setFont(font)
-        self.dateLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.dateLabel.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.dateLabel.setObjectName("dateLabel")
         self.verticalLayout.addWidget(self.dateLabel)
         self.dayLabel = QtWidgets.QLabel(self.verticalLayoutWidget)
         font = QtGui.QFont()
-        font.setPointSize(30)
+        font.setPointSize(35)
         self.dayLabel.setFont(font)
-        self.dayLabel.setAlignment(QtCore.Qt.AlignCenter)
+        self.dayLabel.setAlignment(QtCore.Qt.AlignLeading|QtCore.Qt.AlignLeft|QtCore.Qt.AlignVCenter)
         self.dayLabel.setObjectName("dayLabel")
         self.verticalLayout.addWidget(self.dayLabel)
         self.scanButton = QtWidgets.QPushButton(self.home)
-        self.scanButton.setGeometry(QtCore.QRect(220, 310, 271, 131))
+        self.scanButton.setGeometry(QtCore.QRect(400, 310, 271, 131))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.scanButton.setFont(font)
         self.scanButton.setObjectName("scanButton")
         self.verticalLayoutWidget_2 = QtWidgets.QWidget(self.home)
-        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(390, 60, 320, 221))
+        self.verticalLayoutWidget_2.setGeometry(QtCore.QRect(370, 100, 360, 171))
         self.verticalLayoutWidget_2.setObjectName("verticalLayoutWidget_2")
         self.verticalLayout_2 = QtWidgets.QVBoxLayout(self.verticalLayoutWidget_2)
         self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
@@ -294,7 +75,7 @@ class Ui_MainWindow(object):
         self.verticalLayout_2.addWidget(self.cityLabel)
         self.tempLabel = QtWidgets.QLabel(self.verticalLayoutWidget_2)
         font = QtGui.QFont()
-        font.setPointSize(30)
+        font.setPointSize(25)
         self.tempLabel.setFont(font)
         self.tempLabel.setAlignment(QtCore.Qt.AlignCenter)
         self.tempLabel.setObjectName("tempLabel")
@@ -308,23 +89,23 @@ class Ui_MainWindow(object):
         self.weatherPhraseLabel.setObjectName("weatherPhraseLabel")
         self.verticalLayout_2.addWidget(self.weatherPhraseLabel)
         self.updateWeatherButton = QtWidgets.QPushButton(self.home)
-        self.updateWeatherButton.setGeometry(QtCore.QRect(660, 20, 61, 51))
+        self.updateWeatherButton.setGeometry(QtCore.QRect(660, 40, 61, 51))
         self.updateWeatherButton.setObjectName("updateWeatherButton")
         self.stackedWidget.addWidget(self.home)
         self.inventory = QtWidgets.QWidget()
         self.inventory.setObjectName("inventory")
         self.tableView = QtWidgets.QTableView(self.inventory)
-        self.tableView.setGeometry(QtCore.QRect(-1, 0, 667, 441))
+        self.tableView.setGeometry(QtCore.QRect(1, 0, 661, 441))
         font = QtGui.QFont()
-        font.setPointSize(8)
+        font.setPointSize(10)
         self.tableView.setFont(font)
         self.tableView.setSortingEnabled(True)
         self.tableView.setObjectName("tableView")
         self.invAddButton = QtWidgets.QPushButton(self.inventory)
-        self.invAddButton.setGeometry(QtCore.QRect(664, -1, 71, 101))
+        self.invAddButton.setGeometry(QtCore.QRect(661, 0, 71, 101))
         self.invAddButton.setObjectName("invAddButton")
         self.invDeleteButton = QtWidgets.QPushButton(self.inventory)
-        self.invDeleteButton.setGeometry(QtCore.QRect(664, 97, 71, 101))
+        self.invDeleteButton.setGeometry(QtCore.QRect(661, 100, 71, 101))
         self.invDeleteButton.setObjectName("invDeleteButton")
         self.invSearchLineEdit = QtWidgets.QLineEdit(self.inventory)
         self.invSearchLineEdit.setGeometry(QtCore.QRect(70, 440, 272, 41))
@@ -333,10 +114,10 @@ class Ui_MainWindow(object):
         self.invSearchLineEdit.setFont(font)
         self.invSearchLineEdit.setObjectName("invSearchLineEdit")
         self.invFindButton = QtWidgets.QPushButton(self.inventory)
-        self.invFindButton.setGeometry(QtCore.QRect(340, 439, 250, 43))
+        self.invFindButton.setGeometry(QtCore.QRect(340, 440, 250, 41))
         self.invFindButton.setObjectName("invFindButton")
         self.invInstructionsButton = QtWidgets.QPushButton(self.inventory)
-        self.invInstructionsButton.setGeometry(QtCore.QRect(664, 270, 71, 101))
+        self.invInstructionsButton.setGeometry(QtCore.QRect(661, 270, 71, 101))
         self.invInstructionsButton.setObjectName("invInstructionsButton")
         self.stackedWidget.addWidget(self.inventory)
         self.list = QtWidgets.QWidget()
@@ -357,8 +138,15 @@ class Ui_MainWindow(object):
         self.clearButton.setGeometry(QtCore.QRect(520, 290, 121, 101))
         self.clearButton.setObjectName("clearButton")
         self.listTable = QtWidgets.QTableView(self.list)
-        self.listTable.setGeometry(QtCore.QRect(50, 50, 421, 390))
+        self.listTable.setGeometry(QtCore.QRect(50, 50, 421, 421))
+        font = QtGui.QFont()
+        font.setPointSize(12)
+        self.listTable.setFont(font)
+        self.listTable.setDragDropMode(QtWidgets.QAbstractItemView.NoDragDrop)
+        self.listTable.setAlternatingRowColors(False)
+        self.listTable.setShowGrid(False)
         self.listTable.setObjectName("listTable")
+        self.listTable.verticalHeader().setDefaultSectionSize(30)
         self.stackedWidget.addWidget(self.list)
         self.settings = QtWidgets.QWidget()
         self.settings.setObjectName("settings")
@@ -386,7 +174,7 @@ class Ui_MainWindow(object):
         self.zipLabel.setGeometry(QtCore.QRect(40, 128, 91, 21))
         self.zipLabel.setObjectName("zipLabel")
         self.fullscreenOnButton = QtWidgets.QPushButton(self.settings)
-        self.fullscreenOnButton.setGeometry(QtCore.QRect(170, 190, 61, 41))
+        self.fullscreenOnButton.setGeometry(QtCore.QRect(170, 190, 60, 40))
         self.fullscreenOnButton.setCheckable(True)
         self.fullscreenOnButton.setChecked(True)
         self.fullscreenOnButton.setAutoExclusive(False)
@@ -398,15 +186,15 @@ class Ui_MainWindow(object):
         self.fullscreenLabel.setGeometry(QtCore.QRect(40, 199, 91, 21))
         self.fullscreenLabel.setObjectName("fullscreenLabel")
         self.fullscreenOffButton = QtWidgets.QPushButton(self.settings)
-        self.fullscreenOffButton.setGeometry(QtCore.QRect(228, 190, 61, 41))
+        self.fullscreenOffButton.setGeometry(QtCore.QRect(230, 190, 60, 40))
         self.fullscreenOffButton.setCheckable(True)
         self.fullscreenOffButton.setObjectName("fullscreenOffButton")
         self.fullscreenButtonGroup.addButton(self.fullscreenOffButton)
         self.saveZipButton = QtWidgets.QPushButton(self.settings)
-        self.saveZipButton.setGeometry(QtCore.QRect(270, 120, 51, 41))
+        self.saveZipButton.setGeometry(QtCore.QRect(270, 120, 60, 41))
         self.saveZipButton.setObjectName("saveZipButton")
         self.rotateCameraOnButton = QtWidgets.QPushButton(self.settings)
-        self.rotateCameraOnButton.setGeometry(QtCore.QRect(170, 250, 61, 41))
+        self.rotateCameraOnButton.setGeometry(QtCore.QRect(170, 250, 60, 40))
         self.rotateCameraOnButton.setCheckable(True)
         self.rotateCameraOnButton.setChecked(False)
         self.rotateCameraOnButton.setAutoExclusive(False)
@@ -415,7 +203,7 @@ class Ui_MainWindow(object):
         self.rotateCameraButtonGroup.setObjectName("rotateCameraButtonGroup")
         self.rotateCameraButtonGroup.addButton(self.rotateCameraOnButton)
         self.rotateCameraOffButton = QtWidgets.QPushButton(self.settings)
-        self.rotateCameraOffButton.setGeometry(QtCore.QRect(228, 250, 61, 41))
+        self.rotateCameraOffButton.setGeometry(QtCore.QRect(230, 250, 60, 40))
         self.rotateCameraOffButton.setCheckable(True)
         self.rotateCameraOffButton.setChecked(True)
         self.rotateCameraOffButton.setObjectName("rotateCameraOffButton")
@@ -423,6 +211,24 @@ class Ui_MainWindow(object):
         self.rotateCameraLabel = QtWidgets.QLabel(self.settings)
         self.rotateCameraLabel.setGeometry(QtCore.QRect(40, 260, 121, 16))
         self.rotateCameraLabel.setObjectName("rotateCameraLabel")
+        self.hideCursorOffButton = QtWidgets.QPushButton(self.settings)
+        self.hideCursorOffButton.setGeometry(QtCore.QRect(230, 310, 60, 40))
+        self.hideCursorOffButton.setCheckable(True)
+        self.hideCursorOffButton.setChecked(True)
+        self.hideCursorOffButton.setObjectName("hideCursorOffButton")
+        self.hideCursorButtonGroup = QtWidgets.QButtonGroup(MainWindow)
+        self.hideCursorButtonGroup.setObjectName("hideCursorButtonGroup")
+        self.hideCursorButtonGroup.addButton(self.hideCursorOffButton)
+        self.hideCursorOnButton = QtWidgets.QPushButton(self.settings)
+        self.hideCursorOnButton.setGeometry(QtCore.QRect(170, 310, 60, 40))
+        self.hideCursorOnButton.setCheckable(True)
+        self.hideCursorOnButton.setChecked(False)
+        self.hideCursorOnButton.setAutoExclusive(False)
+        self.hideCursorOnButton.setObjectName("hideCursorOnButton")
+        self.hideCursorButtonGroup.addButton(self.hideCursorOnButton)
+        self.label_2 = QtWidgets.QLabel(self.settings)
+        self.label_2.setGeometry(QtCore.QRect(40, 321, 101, 16))
+        self.label_2.setObjectName("label_2")
         self.stackedWidget.addWidget(self.settings)
         self.scanner = QtWidgets.QWidget()
         self.scanner.setObjectName("scanner")
@@ -495,27 +301,23 @@ class Ui_MainWindow(object):
         self.locationComboBox.setObjectName("locationComboBox")
         self.stackedWidget.addWidget(self.manualEnter)
         self.homeButton = QtWidgets.QPushButton(self.centralwidget)
-        self.homeButton.setGeometry(QtCore.QRect(-1, 0, 70, 120))
+        self.homeButton.setGeometry(QtCore.QRect(0, 0, 70, 120))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.homeButton.setFont(font)
         self.homeButton.setObjectName("homeButton")
         self.invButton = QtWidgets.QPushButton(self.centralwidget)
-        self.invButton.setGeometry(QtCore.QRect(-1, 120, 70, 120))
+        self.invButton.setGeometry(QtCore.QRect(0, 120, 70, 120))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.invButton.setFont(font)
         self.invButton.setObjectName("invButton")
         self.listButton = QtWidgets.QPushButton(self.centralwidget)
-        self.listButton.setGeometry(QtCore.QRect(-1, 240, 70, 120))
+        self.listButton.setGeometry(QtCore.QRect(0, 240, 70, 120))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.listButton.setFont(font)
         self.listButton.setObjectName("listButton")
         self.settingsButton = QtWidgets.QPushButton(self.centralwidget)
-        self.settingsButton.setGeometry(QtCore.QRect(-1, 360, 70, 120))
+        self.settingsButton.setGeometry(QtCore.QRect(0, 360, 70, 120))
         font = QtGui.QFont()
-        font.setPointSize(-1)
         self.settingsButton.setFont(font)
         self.settingsButton.setObjectName("settingsButton")
         MainWindow.setCentralWidget(self.centralwidget)
@@ -556,6 +358,9 @@ class Ui_MainWindow(object):
         self.rotateCameraOnButton.setText(_translate("MainWindow", "ON"))
         self.rotateCameraOffButton.setText(_translate("MainWindow", "OFF"))
         self.rotateCameraLabel.setText(_translate("MainWindow", "Rotate Camera:"))
+        self.hideCursorOffButton.setText(_translate("MainWindow", "OFF"))
+        self.hideCursorOnButton.setText(_translate("MainWindow", "ON"))
+        self.label_2.setText(_translate("MainWindow", "Hide Cursor:"))
         self.manualButton.setText(_translate("MainWindow", "Enter Manually"))
         self.imageView.setText(_translate("MainWindow", "Loading Camera..."))
         self.nameLineEdit.setPlaceholderText(_translate("MainWindow", "Name"))
