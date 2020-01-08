@@ -197,7 +197,7 @@
        <rect>
         <x>1</x>
         <y>0</y>
-        <width>679</width>
+        <width>681</width>
         <height>441</height>
        </rect>
       </property>
@@ -219,7 +219,7 @@
      <widget class="QPushButton" name="invAddButton">
       <property name="geometry">
        <rect>
-        <x>680</x>
+        <x>682</x>
         <y>0</y>
         <width>60</width>
         <height>101</height>
@@ -232,7 +232,7 @@
      <widget class="QPushButton" name="invDeleteButton">
       <property name="geometry">
        <rect>
-        <x>680</x>
+        <x>682</x>
         <y>100</y>
         <width>60</width>
         <height>101</height>
@@ -276,7 +276,7 @@
      <widget class="QPushButton" name="invInstructionsButton">
       <property name="geometry">
        <rect>
-        <x>680</x>
+        <x>682</x>
         <y>270</y>
         <width>60</width>
         <height>101</height>
@@ -393,8 +393,8 @@
      <widget class="QPushButton" name="exitButton">
       <property name="geometry">
        <rect>
-        <x>550</x>
-        <y>370</y>
+        <x>580</x>
+        <y>390</y>
         <width>141</width>
         <height>81</height>
        </rect>
@@ -425,7 +425,7 @@
       <property name="geometry">
        <rect>
         <x>220</x>
-        <y>10</y>
+        <y>0</y>
         <width>261</width>
         <height>61</height>
        </rect>
@@ -648,7 +648,7 @@
        <string notr="true">hideCursorButtonGroup</string>
       </attribute>
      </widget>
-     <widget class="QLabel" name="label_2">
+     <widget class="QLabel" name="hideCursorLabel">
       <property name="geometry">
        <rect>
         <x>40</x>
@@ -659,6 +659,254 @@
       </property>
       <property name="text">
        <string>Hide Cursor:</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="categoriesLabel">
+      <property name="geometry">
+       <rect>
+        <x>390</x>
+        <y>80</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Categories:</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="categoriesListWidget">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>100</y>
+        <width>120</width>
+        <height>130</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLabel" name="brandsLabel">
+      <property name="geometry">
+       <rect>
+        <x>570</x>
+        <y>80</y>
+        <width>91</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Locations:</string>
+      </property>
+     </widget>
+     <widget class="QListWidget" name="locationsListWidget">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>100</y>
+        <width>120</width>
+        <height>130</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="categoriesLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>230</y>
+        <width>120</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="categoriesAddButton">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>260</y>
+        <width>60</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="categoriesDeleteButton">
+      <property name="geometry">
+       <rect>
+        <x>440</x>
+        <y>260</y>
+        <width>60</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="categoriesInfoLabel">
+      <property name="geometry">
+       <rect>
+        <x>370</x>
+        <y>350</y>
+        <width>151</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="categoriesUpButton">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>100</y>
+        <width>40</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>↑</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="categoriesDownButton">
+      <property name="geometry">
+       <rect>
+        <x>500</x>
+        <y>160</y>
+        <width>40</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>↓</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="categoriesSaveButton">
+      <property name="geometry">
+       <rect>
+        <x>380</x>
+        <y>300</y>
+        <width>120</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="locationsUpButton">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>100</y>
+        <width>40</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>↑</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="locationsDownButton">
+      <property name="geometry">
+       <rect>
+        <x>680</x>
+        <y>160</y>
+        <width>40</width>
+        <height>60</height>
+       </rect>
+      </property>
+      <property name="font">
+       <font>
+        <pointsize>12</pointsize>
+       </font>
+      </property>
+      <property name="text">
+       <string>↓</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="locationsSaveButton">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>300</y>
+        <width>120</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Save</string>
+      </property>
+     </widget>
+     <widget class="QLineEdit" name="locationsLineEdit">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>230</y>
+        <width>120</width>
+        <height>31</height>
+       </rect>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="locationsAddButton">
+      <property name="geometry">
+       <rect>
+        <x>560</x>
+        <y>260</y>
+        <width>60</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Add</string>
+      </property>
+     </widget>
+     <widget class="QPushButton" name="locationsDeleteButton">
+      <property name="geometry">
+       <rect>
+        <x>620</x>
+        <y>260</y>
+        <width>60</width>
+        <height>40</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string>Delete</string>
+      </property>
+     </widget>
+     <widget class="QLabel" name="locationsInfoLabel">
+      <property name="geometry">
+       <rect>
+        <x>550</x>
+        <y>350</y>
+        <width>151</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="text">
+       <string/>
+      </property>
+      <property name="alignment">
+       <set>Qt::AlignCenter</set>
       </property>
      </widget>
     </widget>
@@ -943,8 +1191,8 @@
  <resources/>
  <connections/>
  <buttongroups>
-  <buttongroup name="hideCursorButtonGroup"/>
   <buttongroup name="fullscreenButtonGroup"/>
   <buttongroup name="rotateCameraButtonGroup"/>
+  <buttongroup name="hideCursorButtonGroup"/>
  </buttongroups>
 </ui>

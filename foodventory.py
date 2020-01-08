@@ -20,6 +20,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
     DEFAULT_ZIP = '98101'
 
+    MAX_CATEGORIES = 10
+
+    MAX_LOCATIONS  = 10
+
     settings = QtCore.QSettings("jspinn", "Foodventory")
 
     send_rotation = QtCore.pyqtSignal(bool)
@@ -47,9 +51,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         for category in self.settings.value('categories', type=list):
             self.ui.categoryComboBox.addItem(category)
+            self.ui.categoriesListWidget.addItem(category)
 
         for location in self.settings.value('locations', type=list):
             self.ui.locationComboBox.addItem(location)
+            self.ui.locationsListWidget.addItem(location)
 
 
         self.ui.fullscreenOffButton.setChecked(not self.settings.value('fullscreen', type=bool))
@@ -102,12 +108,27 @@ class MainWindow(QtWidgets.QMainWindow):
         # Settings connections
         self.ui.exitButton.clicked.connect(self.exit_button_pressed)
         self.ui.saveZipButton.clicked.connect(self.save_zip_button_pressed)
+
         self.ui.fullscreenOnButton.pressed.connect(self.fullscreen_on_button_pressed)
         self.ui.fullscreenOffButton.pressed.connect(self.fullscreen_off_button_pressed)
+
         self.ui.rotateCameraOnButton.pressed.connect(self.rotate_camera_on_button_pressed)
         self.ui.rotateCameraOffButton.pressed.connect(self.rotate_camera_off_button_pressed)
+
         self.ui.hideCursorOnButton.pressed.connect(self.hide_cursor_on_button_pressed)
         self.ui.hideCursorOffButton.pressed.connect(self.hide_cursor_off_button_pressed)
+
+        self.ui.categoriesAddButton.clicked.connect(self.categories_add_button_pressed)
+        self.ui.categoriesDeleteButton.clicked.connect(self.categories_delete_button_pressed)
+        self.ui.categoriesUpButton.clicked.connect(self.categories_up_button_pressed)
+        self.ui.categoriesDownButton.clicked.connect(self.categories_down_button_pressed)
+        self.ui.categoriesSaveButton.clicked.connect(self.categories_save_button_pressed)
+
+        self.ui.locationsAddButton.clicked.connect(self.locations_add_button_pressed)
+        self.ui.locationsDeleteButton.clicked.connect(self.locations_delete_button_pressed)
+        self.ui.locationsUpButton.clicked.connect(self.locations_up_button_pressed)
+        self.ui.locationsDownButton.clicked.connect(self.locations_down_button_pressed)
+        self.ui.locationsSaveButton.clicked.connect(self.locations_save_button_pressed)
 
         self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
 
@@ -394,6 +415,90 @@ class MainWindow(QtWidgets.QMainWindow):
     def hide_cursor_off_button_pressed(self):
         self.settings.setValue('hideCursor', False)
 
+    def categories_add_button_pressed(self):
+        self.ui.categoriesInfoLabel.clear()
+
+        if self.ui.categoriesListWidget.count() < self.MAX_CATEGORIES:
+            self.ui.categoriesListWidget.addItem(self.ui.categoriesLineEdit.text())
+        else:
+            self.ui.categoriesInfoLabel.setText('Max categories reached.')
+
+        self.ui.categoriesLineEdit.clear()
+
+    def categories_delete_button_pressed(self):
+        self.ui.categoriesInfoLabel.clear()
+        self.ui.categoriesListWidget.takeItem(self.ui.categoriesListWidget.currentRow())
+
+    def categories_up_button_pressed(self):
+        self.ui.categoriesInfoLabel.clear()
+        row = self.ui.categoriesListWidget.currentRow()
+        item = self.ui.categoriesListWidget.takeItem(self.ui.categoriesListWidget.currentRow())
+        self.ui.categoriesListWidget.insertItem(row - 1, item)
+        self.ui.categoriesListWidget.setCurrentRow(row - 1)
+
+    def categories_down_button_pressed(self):
+        self.ui.categoriesInfoLabel.clear()
+        row = self.ui.categoriesListWidget.currentRow()
+        item = self.ui.categoriesListWidget.takeItem(self.ui.categoriesListWidget.currentRow())
+        self.ui.categoriesListWidget.insertItem(row + 1, item)
+        self.ui.categoriesListWidget.setCurrentRow(row + 1)
+
+    def categories_save_button_pressed(self):
+        categories = []
+        self.ui.categoryComboBox.clear()
+
+        for row in range(self.ui.categoriesListWidget.count()):
+            categories.append(self.ui.categoriesListWidget.item(row).text())
+
+        self.ui.categoryComboBox.addItems(categories)
+
+        self.settings.setValue('categories', categories)
+
+        self.ui.categoriesInfoLabel.setText('Categories saved.')
+
+
+    def locations_add_button_pressed(self):
+        self.ui.locationsInfoLabel.clear()
+
+        if self.ui.locationsListWidget.count() < self.MAX_LOCATIONS:
+            self.ui.locationsListWidget.addItem(self.ui.locationsLineEdit.text())
+        else:
+            self.ui.locationsInfoLabel.setText('Max categories reached.')
+
+        self.ui.locationsLineEdit.clear()
+
+    def locations_delete_button_pressed(self):
+        self.ui.locationsInfoLabel.clear()
+        self.ui.locationsListWidget.takeItem(self.ui.locationsListWidget.currentRow())
+
+    def locations_up_button_pressed(self):
+        self.ui.locationsInfoLabel.clear()
+        row = self.ui.locationsListWidget.currentRow()
+        item = self.ui.locationsListWidget.takeItem(self.ui.locationsListWidget.currentRow())
+        self.ui.locationsListWidget.insertItem(row - 1, item)
+        self.ui.locationsListWidget.setCurrentRow(row - 1)
+
+    def locations_down_button_pressed(self):
+        self.ui.locationsInfoLabel.clear()
+        row = self.ui.locationsListWidget.currentRow()
+        item = self.ui.locationsListWidget.takeItem(self.ui.locationsListWidget.currentRow())
+        self.ui.locationsListWidget.insertItem(row + 1, item)
+        self.ui.locationsListWidget.setCurrentRow(row + 1)
+
+    def locations_save_button_pressed(self):
+        locations = []
+        self.ui.locationComboBox.clear()
+
+        for row in range(self.ui.locationsListWidget.count()):
+            locations.append(self.ui.locationsListWidget.item(row).text())
+
+        self.ui.locationComboBox.addItems(locations)
+
+        self.settings.setValue('locations', locations)
+
+        self.ui.locationsInfoLabel.setText('Locations saved.')
+
+
 
     # Open/close camera when tabs changed
     def stack_index_changed(self, index):
@@ -430,8 +535,6 @@ class MainWindow(QtWidgets.QMainWindow):
             # ADD ONLINE NAME SEARCH HERE
             page = 'https://www.barcodelookup.com/{}'.format(upc)
 
-            print(page)
-
 
             try:
                 req = requests.get(page)
@@ -446,10 +549,13 @@ class MainWindow(QtWidgets.QMainWindow):
                 self.ui.brandLineEdit.setText(brand[2].text)
 
             except requests.HTTPError:
-                print("error")
+                print("HTTP Error")
 
             except requests.ConnectionError:
-                print("error")
+                print("Connection Error")
+
+            except IndexError:
+                print("None found error")
 
 
 
@@ -563,6 +669,34 @@ if __name__ == "__main__":
          border-bottom-right-radius: 3px;
      }
 
+     QDoubleSpinBox::up-button
+     {
+         color: #d7d7d7;
+         background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
+         border-width: 1px;
+         border-color: #1e1e1e;
+         border-style: solid;
+         border-radius: 1;
+         padding: 3px;
+         font-size: 12px;
+         padding-left: 5px;
+         padding-right: 5px;
+     }
+
+     QDoubleSpinBox::down-button
+     {
+         color: #d7d7d7;
+         background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
+         border-width: 1px;
+         border-color: #1e1e1e;
+         border-style: solid;
+         border-radius: 1;
+         padding: 3px;
+         font-size: 12px;
+         padding-left: 5px;
+         padding-right: 5px;
+     }
+
      QTextEdit:focus
      {
          border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #0095ff, stop: 1 #006bff);
@@ -572,7 +706,7 @@ if __name__ == "__main__":
           border: 1px solid #222222;
           background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);
           height: 30px;
-          margin: 0px 16px 0 16px;
+          margin: 0px 32px 0 32px;
      }
 
      QScrollBar::handle:horizontal
@@ -586,16 +720,17 @@ if __name__ == "__main__":
            border: 1px solid #1b1b19;
            border-radius: 2px;
            background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #0095ff, stop: 1 #006bff);
-           width: 14px;
+           width: 30px;
            subcontrol-position: right;
            subcontrol-origin: margin;
      }
+
 
      QScrollBar::sub-line:horizontal {
            border: 1px solid #1b1b19;
            border-radius: 2px;
            background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0 #0095ff, stop: 1 #006bff);
-           width: 14px;
+           width: 30px;
           subcontrol-position: left;
           subcontrol-origin: margin;
      }
@@ -603,8 +738,8 @@ if __name__ == "__main__":
      QScrollBar::right-arrow:horizontal, QScrollBar::left-arrow:horizontal
      {
            border: 1px solid black;
-           width: 1px;
-           height: 1px;
+           width: 2px;
+           height: 2px;
            background: white;
      }
 
@@ -617,7 +752,7 @@ if __name__ == "__main__":
      {
            background: QLinearGradient( x1: 0, y1: 0, x2: 1, y2: 0, stop: 0.0 #121212, stop: 0.2 #282828, stop: 1 #484848);
            width: 30px;
-           margin: 16px 0 16px 0;
+           margin: 32px 0 32px 0;
            border: 1px solid #222222;
      }
 
@@ -633,7 +768,7 @@ if __name__ == "__main__":
            border: 1px solid #1b1b19;
            border-radius: 2px;
            background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #0095ff, stop: 1 #006bff);
-           height: 14px;
+           height: 30px;
            subcontrol-position: bottom;
            subcontrol-origin: margin;
      }
@@ -643,7 +778,7 @@ if __name__ == "__main__":
            border: 1px solid #1b1b19;
            border-radius: 2px;
            background: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #006bff, stop: 1 #0095ff);
-           height: 14px;
+           height: 30px;
            subcontrol-position: top;
            subcontrol-origin: margin;
      }
@@ -651,8 +786,8 @@ if __name__ == "__main__":
      QScrollBar::up-arrow:vertical, QScrollBar::down-arrow:vertical
      {
            border: 1px solid black;
-           width: 1px;
-           height: 1px;
+           width: 2px;
+           height: 2px;
            background: white;
      }
 
