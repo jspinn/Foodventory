@@ -673,6 +673,10 @@ if __name__ == "__main__":
         border: 2px solid QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #0095ff, stop: 1 #006bff);
     }
 
+    QPushButton:default
+    {
+    }
+
     QComboBox
     {
         selection-background-color: #ffaa00;

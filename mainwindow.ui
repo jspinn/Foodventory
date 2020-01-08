@@ -1151,11 +1151,11 @@
      </widget>
     </widget>
     <widget class="QWidget" name="settings2">
-     <widget class="QLineEdit" name="authLineEdit">
+     <widget class="QLineEdit" name="sidLineEdit">
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>150</y>
+        <y>100</y>
         <width>300</width>
         <height>40</height>
        </rect>
@@ -1218,11 +1218,11 @@
        </size>
       </property>
      </widget>
-     <widget class="QLineEdit" name="sidLineEdit">
+     <widget class="QLineEdit" name="authLineEdit">
       <property name="geometry">
        <rect>
         <x>120</x>
-        <y>100</y>
+        <y>150</y>
         <width>300</width>
         <height>40</height>
        </rect>
