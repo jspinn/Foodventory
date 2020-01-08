@@ -21,6 +21,7 @@ class instructionDialog(QtWidgets.QDialog):
     def edit_button_pressed(self):
         self.edited = True
         self.ui.instructionEdit.setReadOnly(False)
+        self.ui.instructionEdit.setFocus()
 
     def ok_button_pressed(self):
         if self.edited:
