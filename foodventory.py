@@ -679,7 +679,7 @@ if __name__ == "__main__":
 
     QComboBox
     {
-        selection-background-color: #ffaa00;
+        selection-background-color: #0095ff;
         background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #565656, stop: 0.1 #525252, stop: 0.5 #4e4e4e, stop: 0.9 #4a4a4a, stop: 1 #464646);
         border-style: solid;
         border: 1px solid #1e1e1e;
@@ -697,7 +697,7 @@ if __name__ == "__main__":
         padding-top: 3px;
         padding-left: 4px;
         background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #2d2d2d, stop: 0.1 #2b2b2b, stop: 0.5 #292929, stop: 0.9 #282828, stop: 1 #252525);
-        selection-background-color: #ffaa00;
+        selection-background-color: #0095ff;
     }
 
     QComboBox QAbstractItemView
@@ -719,6 +719,14 @@ if __name__ == "__main__":
          border-bottom-right-radius: 3px;
      }
 
+     QDoubleSpinBox
+     {
+         selection-background-color: #0095ff;
+         background-color: QLinearGradient( x1: 0, y1: 0, x2: 0, y2: 1, stop: 0 #4d4d4d, stop: 0 #646464, stop: 1 #5d5d5d);
+         border-style: solid;
+         border: 1px solid #1e1e1e;
+     }
+
      QDoubleSpinBox::up-button
      {
          color: #d7d7d7;
@@ -731,6 +739,17 @@ if __name__ == "__main__":
          font-size: 12px;
          padding-left: 5px;
          padding-right: 5px;
+         width: 35px;
+     }
+
+     QDoubleSpinBox::up-arrow
+     {
+         image: url(:/icons/up-arrow.png);
+     }
+
+     QDoubleSpinBox::down-arrow
+     {
+         image: url(:/icons/down-arrow.png);
      }
 
      QDoubleSpinBox::down-button
@@ -745,6 +764,7 @@ if __name__ == "__main__":
          font-size: 12px;
          padding-left: 5px;
          padding-right: 5px;
+         width: 35px;
      }
 
      QTextEdit:focus

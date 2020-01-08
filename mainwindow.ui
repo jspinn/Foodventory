@@ -1125,7 +1125,17 @@
        </font>
       </property>
       <property name="text">
-       <string>►</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>icons/right-arrow.png</normaloff>icons/right-arrow.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="leftButton">
@@ -1146,7 +1156,17 @@
        </font>
       </property>
       <property name="text">
-       <string>◄</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>icons/left-arrow.png</normaloff>icons/left-arrow.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
      </widget>
     </widget>
@@ -1280,7 +1300,17 @@
        </font>
       </property>
       <property name="text">
-       <string>◄</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>icons/left-arrow.png</normaloff>icons/left-arrow.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
      </widget>
      <widget class="QPushButton" name="rightButton2">
@@ -1301,7 +1331,17 @@
        </font>
       </property>
       <property name="text">
-       <string>►</string>
+       <string/>
+      </property>
+      <property name="icon">
+       <iconset>
+        <normaloff>icons/right-arrow.png</normaloff>icons/right-arrow.png</iconset>
+      </property>
+      <property name="iconSize">
+       <size>
+        <width>20</width>
+        <height>20</height>
+       </size>
       </property>
      </widget>
      <widget class="QLineEdit" name="fromNumberLineEdit">
@@ -1529,6 +1569,9 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+      <property name="buttonSymbols">
+       <enum>QAbstractSpinBox::UpDownArrows</enum>
       </property>
       <property name="value">
        <double>1.000000000000000</double>
