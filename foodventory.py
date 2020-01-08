@@ -3,6 +3,7 @@ import requests
 import bs4
 from PyQt5 import QtWidgets, QtCore, QtSql, QtGui
 from datetime import datetime
+from twilio.rest import Client, TwilioException
 
 from ui_MainWindow import Ui_MainWindow
 from weather import Weather
@@ -13,7 +14,7 @@ from camera import CameraThread
 class MainWindow(QtWidgets.QMainWindow):
 
     # Tab indexes for stacked widget
-    tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Scanner':4, 'ManualEnter':5}
+    tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Settings2':4, 'Scanner':5, 'ManualEnter':6}
 
     # Column indexes
     columns = {'Name':0, 'Brand':1, 'Category':2, 'Location':3, 'Quantity':4, 'Date':5, 'UPC':6, 'Instructions':7}
@@ -57,6 +58,11 @@ class MainWindow(QtWidgets.QMainWindow):
             self.ui.locationComboBox.addItem(location)
             self.ui.locationsListWidget.addItem(location)
 
+        self.ui.sidLineEdit.setText(self.settings.value('sid', type=str))
+        self.ui.authLineEdit.setText(self.settings.value('authToken', type=str))
+        self.ui.fromNumberLineEdit.setText(self.settings.value('fromNumber', type=str))
+        self.ui.toNumberLineEdit.setText(self.settings.value('toNumber', type=str))
+
 
         self.ui.fullscreenOffButton.setChecked(not self.settings.value('fullscreen', type=bool))
         self.ui.rotateCameraOnButton.setChecked(self.settings.value('rotateCamera', type=bool))
@@ -74,70 +80,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setup_connections()
 
 
-
-
-    def setup_connections(self):
-        # Side bar connections
-        self.ui.homeButton.clicked.connect(self.home_button_pressed)
-        self.ui.invButton.clicked.connect(self.inv_button_pressed)
-        self.ui.listButton.clicked.connect(self.list_button_pressed)
-        self.ui.settingsButton.clicked.connect(self.settings_button_pressed)
-
-        # Home connections
-        self.ui.manualButton.clicked.connect(self.manual_enter_button_pressed)
-        self.ui.manualAddButton.clicked.connect(self.manual_add_button_pressed)
-        self.ui.manualCancelButton.clicked.connect(self.manual_cancel_button_pressed)
-        self.ui.barcodeScanButton.clicked.connect(self.barcode_scan_button_pressed)
-        self.ui.updateWeatherButton.clicked.connect(self.update_weather)
-
-        self.ui.scanButton.clicked.connect(self.scan_button_pressed)
-
-        # Inventory connections
-        self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
-        self.ui.invAddButton.clicked.connect(self.inv_add_button_pressed)
-        self.ui.invInstructionsButton.clicked.connect(self.inv_instructions_button_pressed)
-        self.ui.invFindButton.clicked.connect(self.inv_find_button_pressed)
-        self.ui.invSearchLineEdit.returnPressed.connect(self.inv_find_button_pressed)
-
-        # List connections
-        self.ui.addButton.clicked.connect(self.add_button_pressed)
-        self.ui.listEdit.returnPressed.connect(self.add_button_pressed)
-        self.ui.deleteButton.clicked.connect(self.delete_button_pressed)
-        self.ui.clearButton.clicked.connect(self.clear_button_pressed)
-
-        # Settings connections
-        self.ui.exitButton.clicked.connect(self.exit_button_pressed)
-        self.ui.saveZipButton.clicked.connect(self.save_zip_button_pressed)
-
-        self.ui.fullscreenOnButton.pressed.connect(self.fullscreen_on_button_pressed)
-        self.ui.fullscreenOffButton.pressed.connect(self.fullscreen_off_button_pressed)
-
-        self.ui.rotateCameraOnButton.pressed.connect(self.rotate_camera_on_button_pressed)
-        self.ui.rotateCameraOffButton.pressed.connect(self.rotate_camera_off_button_pressed)
-
-        self.ui.hideCursorOnButton.pressed.connect(self.hide_cursor_on_button_pressed)
-        self.ui.hideCursorOffButton.pressed.connect(self.hide_cursor_off_button_pressed)
-
-        self.ui.categoriesAddButton.clicked.connect(self.categories_add_button_pressed)
-        self.ui.categoriesDeleteButton.clicked.connect(self.categories_delete_button_pressed)
-        self.ui.categoriesUpButton.clicked.connect(self.categories_up_button_pressed)
-        self.ui.categoriesDownButton.clicked.connect(self.categories_down_button_pressed)
-        self.ui.categoriesSaveButton.clicked.connect(self.categories_save_button_pressed)
-
-        self.ui.locationsAddButton.clicked.connect(self.locations_add_button_pressed)
-        self.ui.locationsDeleteButton.clicked.connect(self.locations_delete_button_pressed)
-        self.ui.locationsUpButton.clicked.connect(self.locations_up_button_pressed)
-        self.ui.locationsDownButton.clicked.connect(self.locations_down_button_pressed)
-        self.ui.locationsSaveButton.clicked.connect(self.locations_save_button_pressed)
-
-        self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
-
-        # Barcode scanner connections
-        self.thread = CameraThread(self)
-        self.thread.changePixmap.connect(self.set_image)
-
-        self.thread.sendUPC.connect(self.receive_barcode)
-        self.send_rotation.connect(self.thread.receive_rotation)
 
     def setup_database(self):
         db = QtSql.QSqlDatabase.addDatabase('QSQLITE')
@@ -171,7 +113,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.timer.start(1000)
 
     def setup_weather(self):
-        self.weather = Weather(self.settings.value('ZIP')) # zip code - REPLACE WITH SETTINGS
+        self.weather = Weather(self.settings.value('ZIP'))
         self.update_weather()
 
         self.weatherTimer = QtCore.QTimer(self)
@@ -226,10 +168,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableView.setColumnWidth(self.columns['UPC'], 140)
 
 
-
-
-
-
         # Setup list table
         self.ui.listTable.setModel(self.listModel)
         self.ui.listTable.horizontalHeader().hide()
@@ -252,6 +190,75 @@ class MainWindow(QtWidgets.QMainWindow):
         return self.model.match(
             start, QtCore.Qt.DisplayRole,
             searchText, -1, match)
+
+    def setup_connections(self):
+        # Side bar connections
+        self.ui.homeButton.clicked.connect(self.home_button_pressed)
+        self.ui.invButton.clicked.connect(self.inv_button_pressed)
+        self.ui.listButton.clicked.connect(self.list_button_pressed)
+        self.ui.settingsButton.clicked.connect(self.settings_button_pressed)
+
+        # Home connections
+        self.ui.manualButton.clicked.connect(self.manual_enter_button_pressed)
+        self.ui.manualAddButton.clicked.connect(self.manual_add_button_pressed)
+        self.ui.manualCancelButton.clicked.connect(self.manual_cancel_button_pressed)
+        self.ui.barcodeScanButton.clicked.connect(self.barcode_scan_button_pressed)
+        self.ui.updateWeatherButton.clicked.connect(self.update_weather)
+
+        self.ui.scanButton.clicked.connect(self.scan_button_pressed)
+
+        # Inventory connections
+        self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
+        self.ui.invAddButton.clicked.connect(self.inv_add_button_pressed)
+        self.ui.invInstructionsButton.clicked.connect(self.inv_instructions_button_pressed)
+        self.ui.invFindButton.clicked.connect(self.inv_find_button_pressed)
+        self.ui.invSearchLineEdit.returnPressed.connect(self.inv_find_button_pressed)
+
+        # List connections
+        self.ui.addButton.clicked.connect(self.add_button_pressed)
+        self.ui.listEdit.returnPressed.connect(self.add_button_pressed)
+        self.ui.deleteButton.clicked.connect(self.delete_button_pressed)
+        self.ui.clearButton.clicked.connect(self.clear_button_pressed)
+        self.ui.sendButton.clicked.connect(self.send_button_pressed)
+
+        # Settings connections
+        self.ui.exitButton.clicked.connect(self.exit_button_pressed)
+        self.ui.saveZipButton.clicked.connect(self.save_zip_button_pressed)
+
+        self.ui.fullscreenOnButton.pressed.connect(self.fullscreen_on_button_pressed)
+        self.ui.fullscreenOffButton.pressed.connect(self.fullscreen_off_button_pressed)
+
+        self.ui.rotateCameraOnButton.pressed.connect(self.rotate_camera_on_button_pressed)
+        self.ui.rotateCameraOffButton.pressed.connect(self.rotate_camera_off_button_pressed)
+
+        self.ui.hideCursorOnButton.pressed.connect(self.hide_cursor_on_button_pressed)
+        self.ui.hideCursorOffButton.pressed.connect(self.hide_cursor_off_button_pressed)
+
+        self.ui.categoriesAddButton.clicked.connect(self.categories_add_button_pressed)
+        self.ui.categoriesDeleteButton.clicked.connect(self.categories_delete_button_pressed)
+        self.ui.categoriesUpButton.clicked.connect(self.categories_up_button_pressed)
+        self.ui.categoriesDownButton.clicked.connect(self.categories_down_button_pressed)
+        self.ui.categoriesSaveButton.clicked.connect(self.categories_save_button_pressed)
+
+        self.ui.locationsAddButton.clicked.connect(self.locations_add_button_pressed)
+        self.ui.locationsDeleteButton.clicked.connect(self.locations_delete_button_pressed)
+        self.ui.locationsUpButton.clicked.connect(self.locations_up_button_pressed)
+        self.ui.locationsDownButton.clicked.connect(self.locations_down_button_pressed)
+        self.ui.locationsSaveButton.clicked.connect(self.locations_save_button_pressed)
+
+        self.ui.rightButton.clicked.connect(self.right_arrow_button_pressed)
+        self.ui.leftButton2.clicked.connect(self.left2_button_pressed)
+
+        self.ui.smsApplyButton.clicked.connect(self.sms_apply_button_pressed)
+
+        self.ui.stackedWidget.currentChanged.connect(self.stack_index_changed)
+
+        # Barcode scanner connections
+        self.thread = CameraThread(self)
+        self.thread.changePixmap.connect(self.set_image)
+
+        self.thread.sendUPC.connect(self.receive_barcode)
+        self.send_rotation.connect(self.thread.receive_rotation)
 
     # SLOTS
 
@@ -377,6 +384,30 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.listModel.select()
 
+    def send_button_pressed(self):
+
+        listMessage = 'x\n\n'
+
+        for row in range(self.listModel.rowCount()):
+            listMessage += self.listModel.record(row).value('item') + '\n'
+
+        try:
+            client = Client(self.settings.value('sid',type=str), self.settings.value('authToken',type=str))
+
+            client.messages.create(
+                 body=listMessage,
+                 from_=self.settings.value('fromNumber', type=str),
+                 to=self.settings.value('toNumber', type=str)
+                 )
+
+            self.ui.listSentLabel.setText('List sent.')
+
+        except TwilioException:
+            self.ui.listSentLabel.setText('Error. Check settings.')
+
+        except requests.ConnectionError:
+            self.ui.listSentLabel.setText('Connection Error.')
+
 
     def receive_instruct(self, instructions):
         record = self.model.record(self.ui.tableView.currentIndex().row())
@@ -498,6 +529,22 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.locationsInfoLabel.setText('Locations saved.')
 
+    def right_arrow_button_pressed(self):
+        self.ui.stackedWidget.setCurrentIndex(self.tabs['Settings2'])
+
+
+    # Settings2 Slots
+
+    def left2_button_pressed(self):
+        self.ui.stackedWidget.setCurrentIndex(self.tabs['Settings'])
+
+    def sms_apply_button_pressed(self):
+        self.settings.setValue('sid', self.ui.sidLineEdit.text())
+        self.settings.setValue('authToken', self.ui.authLineEdit.text())
+        self.settings.setValue('fromNumber', self.ui.fromNumberLineEdit.text())
+        self.settings.setValue('toNumber', self.ui.toNumberLineEdit.text())
+
+
 
 
     # Open/close camera when tabs changed
@@ -555,8 +602,7 @@ class MainWindow(QtWidgets.QMainWindow):
                 print("Connection Error")
 
             except IndexError:
-                print("None found error")
-
+                self.ui.nameLineEdit.clear()
 
 
 
