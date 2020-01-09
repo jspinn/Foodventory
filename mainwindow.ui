@@ -589,22 +589,6 @@
        <set>Qt::AlignCenter</set>
       </property>
      </widget>
-     <widget class="QLabel" name="weatherLabel">
-      <property name="geometry">
-       <rect>
-        <x>110</x>
-        <y>60</y>
-        <width>101</width>
-        <height>21</height>
-       </rect>
-      </property>
-      <property name="text">
-       <string>Weather</string>
-      </property>
-      <property name="alignment">
-       <set>Qt::AlignCenter</set>
-      </property>
-     </widget>
      <widget class="QLabel" name="zipLabel">
       <property name="geometry">
        <rect>
@@ -1745,7 +1729,7 @@
  <connections/>
  <buttongroups>
   <buttongroup name="fullscreenButtonGroup"/>
-  <buttongroup name="rotateCameraButtonGroup"/>
   <buttongroup name="hideCursorButtonGroup"/>
+  <buttongroup name="rotateCameraButtonGroup"/>
  </buttongroups>
 </ui>

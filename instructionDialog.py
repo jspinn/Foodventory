@@ -5,11 +5,14 @@ from ui_instructionDialog import Ui_Dialog
 class instructionDialog(QtWidgets.QDialog):
     sendInstruct = QtCore.pyqtSignal(str)
 
-    def __init__(self, instruction):
+    def __init__(self, name, instruction):
         super(QtWidgets.QDialog,self).__init__()
         self.ui = Ui_Dialog()
         self.ui.setupUi(self)
 
+        self.setWindowFlags(QtCore.Qt.FramelessWindowHint)
+
+        self.ui.nameLabel.setText(name)
         self.ui.instructionEdit.setText(instruction)
 
         # Flag if text was edited

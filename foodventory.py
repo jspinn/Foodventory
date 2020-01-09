@@ -10,6 +10,7 @@ from barcode.writer import ImageWriter
 from ui_MainWindow import Ui_MainWindow
 from weather import Weather
 from instructionDialog import instructionDialog
+from deleteDialog import deleteDialog
 from camera import CameraThread
 
 
@@ -336,33 +337,42 @@ class MainWindow(QtWidgets.QMainWindow):
 
     # Inventory slots
     def inv_delete_button_pressed(self):
-        self.model.removeRow(self.ui.tableView.currentIndex().row())
-        self.update_table()
+        record = self.model.record(self.ui.tableView.currentIndex().row())
+        item = record.value('name')
+
+        dialog = deleteDialog(item)
+
+
+        if dialog.exec():
+            self.model.removeRow(self.ui.tableView.currentIndex().row())
+            self.update_table()
 
     def inv_add_button_pressed(self):
         self.manual_enter_button_pressed()
 
     def inv_instructions_button_pressed(self):
-        record = self.model.record(self.ui.tableView.currentIndex().row())
-        instruct = record.value('instructions')
+        if self.ui.tableView.currentIndex().row() >= 0:
+            record = self.model.record(self.ui.tableView.currentIndex().row())
+            instruct = record.value('instructions')
+            name = record.value('name')
 
-        barcodeNumber = record.value('Barcode')
+            barcodeNumber = record.value('barcode')
 
-        self.dialog = instructionDialog(instruct)
-        self.dialog.sendInstruct.connect(self.receive_instruct)
+            self.dialog = instructionDialog(name,instruct)
+            self.dialog.sendInstruct.connect(self.receive_instruct)
 
-        if len(barcodeNumber) == 13:
-            EAN = barcode.get_barcode_class('ean13')
-            ean = EAN(barcodeNumber, writer=ImageWriter())
+            if len(barcodeNumber) == 13:
+                EAN = barcode.get_barcode_class('ean13')
+                ean = EAN(barcodeNumber, writer=ImageWriter())
 
-            filename = ean.save('barcode')
+                filename = ean.save('barcode')
 
-            pixmap = QtGui.QPixmap(filename)
+                pixmap = QtGui.QPixmap(filename)
 
-            self.dialog.ui.barcodeView.setPixmap(pixmap)
+                self.dialog.ui.barcodeView.setPixmap(pixmap)
 
 
-        self.dialog.show()
+            self.dialog.show()
 
     def inv_find_button_pressed(self):
         searchItems = self.find(self.ui.invSearchLineEdit.text())
@@ -374,6 +384,12 @@ class MainWindow(QtWidgets.QMainWindow):
             index = searchItems[0]
 
             self.ui.tableView.selectRow(index.row())
+
+    def receive_instruct(self, instructions):
+        record = self.model.record(self.ui.tableView.currentIndex().row())
+        record.setValue(self.columns['Instructions'], instructions)
+        self.model.setRecord(self.ui.tableView.currentIndex().row(), record)
+        self.model.submitAll()
 
 
     # List slots
@@ -389,10 +405,12 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.ui.listEdit.clear()
         self.ui.listEdit.setFocus()
+        self.ui.listSentLabel.clear()
 
     def delete_button_pressed(self):
         self.listModel.removeRow(self.ui.listTable.currentIndex().row())
         self.listModel.select()
+        self.ui.listSentLabel.clear()
 
     def clear_button_pressed(self):
 
@@ -400,6 +418,7 @@ class MainWindow(QtWidgets.QMainWindow):
             self.listModel.removeRow(row)
 
         self.listModel.select()
+        self.ui.listSentLabel.clear()
 
     def send_button_pressed(self):
 
@@ -425,12 +444,6 @@ class MainWindow(QtWidgets.QMainWindow):
         except requests.ConnectionError:
             self.ui.listSentLabel.setText('Connection Error.')
 
-
-    def receive_instruct(self, instructions):
-        record = self.model.record(self.ui.tableView.currentIndex().row())
-        record.setValue(self.columns['Instructions'], instructions)
-        self.model.setRecord(self.ui.tableView.currentIndex().row(), record)
-        self.model.submitAll()
 
     # Settings slots
     def exit_button_pressed(self):

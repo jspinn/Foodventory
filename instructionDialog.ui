@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>401</width>
-    <height>454</height>
+    <width>400</width>
+    <height>480</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -19,10 +19,10 @@
   <widget class="QTextEdit" name="instructionEdit">
    <property name="geometry">
     <rect>
-     <x>-1</x>
-     <y>-1</y>
-     <width>314</width>
-     <height>303</height>
+     <x>1</x>
+     <y>31</y>
+     <width>311</width>
+     <height>270</height>
     </rect>
    </property>
    <property name="readOnly">
@@ -32,10 +32,10 @@
   <widget class="QPushButton" name="editButton">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>-2</y>
-     <width>93</width>
-     <height>155</height>
+     <x>312</x>
+     <y>31</y>
+     <width>88</width>
+     <height>135</height>
     </rect>
    </property>
    <property name="text">
@@ -48,10 +48,10 @@
   <widget class="QPushButton" name="okButton">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>150</y>
-     <width>93</width>
-     <height>152</height>
+     <x>312</x>
+     <y>167</y>
+     <width>88</width>
+     <height>135</height>
     </rect>
    </property>
    <property name="text">
@@ -65,9 +65,9 @@
    <property name="geometry">
     <rect>
      <x>0</x>
-     <y>300</y>
+     <y>303</y>
      <width>400</width>
-     <height>151</height>
+     <height>177</height>
     </rect>
    </property>
    <property name="text">
@@ -75,6 +75,22 @@
    </property>
    <property name="scaledContents">
     <bool>true</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="nameLabel">
+   <property name="geometry">
+    <rect>
+     <x>10</x>
+     <y>0</y>
+     <width>291</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

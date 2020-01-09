@@ -1,3 +1,3 @@
 {
-    "files": ["foodventory.py","mainwindow.ui","instructionDialog.ui","instructionDialog.py","weather.py","camera.py"]
+    "files": ["deleteDialog.ui","instructionDialog.ui","mainwindow.ui","foodventory.py","camera.py","instructionDialog.py","weather.py","deleteDialog.py"]
 }
