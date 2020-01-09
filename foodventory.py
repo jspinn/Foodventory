@@ -620,10 +620,15 @@ class MainWindow(QtWidgets.QMainWindow):
                 barcodePage = bs4.BeautifulSoup(req.text, "html.parser")
 
                 name = barcodePage.find('h4')
-                self.ui.nameLineEdit.setText(name.text)
+
+                newName = name.text.strip()
+
+                self.ui.nameLineEdit.setText(newName)
 
                 brand = barcodePage.findAll('span', class_="product-text")
-                self.ui.brandLineEdit.setText(brand[2].text)
+
+                newBrand = brand[2].text.strip()
+                self.ui.brandLineEdit.setText(newBrand)
 
             except requests.HTTPError:
                 print("HTTP Error")
