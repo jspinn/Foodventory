@@ -221,11 +221,6 @@
         <height>441</height>
        </rect>
       </property>
-      <property name="font">
-       <font>
-        <pointsize>10</pointsize>
-       </font>
-      </property>
       <property name="textElideMode">
        <enum>Qt::ElideNone</enum>
       </property>
@@ -582,7 +577,7 @@
       </property>
       <property name="font">
        <font>
-        <pointsize>10</pointsize>
+        <pointsize>8</pointsize>
        </font>
       </property>
       <property name="text">
@@ -809,9 +804,9 @@
       <property name="geometry">
        <rect>
         <x>380</x>
-        <y>70</y>
+        <y>66</y>
         <width>91</width>
-        <height>16</height>
+        <height>20</height>
        </rect>
       </property>
       <property name="text">
@@ -832,9 +827,9 @@
       <property name="geometry">
        <rect>
         <x>570</x>
-        <y>70</y>
+        <y>66</y>
         <width>91</width>
-        <height>16</height>
+        <height>20</height>
        </rect>
       </property>
       <property name="text">
