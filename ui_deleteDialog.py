@@ -13,16 +13,16 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(380, 150)
+        Dialog.resize(550, 150)
         Dialog.setModal(True)
         self.yesButton = QtWidgets.QPushButton(Dialog)
-        self.yesButton.setGeometry(QtCore.QRect(90, 80, 93, 51))
+        self.yesButton.setGeometry(QtCore.QRect(173, 80, 93, 51))
         self.yesButton.setObjectName("yesButton")
         self.cancelButton = QtWidgets.QPushButton(Dialog)
-        self.cancelButton.setGeometry(QtCore.QRect(200, 80, 93, 51))
+        self.cancelButton.setGeometry(QtCore.QRect(283, 80, 93, 51))
         self.cancelButton.setObjectName("cancelButton")
         self.label = QtWidgets.QLabel(Dialog)
-        self.label.setGeometry(QtCore.QRect(30, 20, 331, 41))
+        self.label.setGeometry(QtCore.QRect(35, 20, 481, 41))
         self.label.setAlignment(QtCore.Qt.AlignCenter)
         self.label.setObjectName("label")
 

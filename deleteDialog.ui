@@ -6,7 +6,7 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>380</width>
+    <width>550</width>
     <height>150</height>
    </rect>
   </property>
@@ -19,7 +19,7 @@
   <widget class="QPushButton" name="yesButton">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>173</x>
      <y>80</y>
      <width>93</width>
      <height>51</height>
@@ -32,7 +32,7 @@
   <widget class="QPushButton" name="cancelButton">
    <property name="geometry">
     <rect>
-     <x>200</x>
+     <x>283</x>
      <y>80</y>
      <width>93</width>
      <height>51</height>
@@ -45,9 +45,9 @@
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
-     <x>30</x>
+     <x>35</x>
      <y>20</y>
-     <width>331</width>
+     <width>481</width>
      <height>41</height>
     </rect>
    </property>
