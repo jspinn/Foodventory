@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>400</width>
-    <height>300</height>
+    <width>401</width>
+    <height>454</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -59,6 +59,22 @@
    </property>
    <property name="autoDefault">
     <bool>false</bool>
+   </property>
+  </widget>
+  <widget class="QLabel" name="barcodeView">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>300</y>
+     <width>400</width>
+     <height>151</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string/>
+   </property>
+   <property name="scaledContents">
+    <bool>true</bool>
    </property>
   </widget>
  </widget>

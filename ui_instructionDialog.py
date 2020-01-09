@@ -13,7 +13,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_Dialog(object):
     def setupUi(self, Dialog):
         Dialog.setObjectName("Dialog")
-        Dialog.resize(400, 300)
+        Dialog.resize(401, 454)
         Dialog.setModal(True)
         self.instructionEdit = QtWidgets.QTextEdit(Dialog)
         self.instructionEdit.setGeometry(QtCore.QRect(-1, -1, 314, 303))
@@ -27,6 +27,11 @@ class Ui_Dialog(object):
         self.okButton.setGeometry(QtCore.QRect(310, 150, 93, 152))
         self.okButton.setAutoDefault(False)
         self.okButton.setObjectName("okButton")
+        self.barcodeView = QtWidgets.QLabel(Dialog)
+        self.barcodeView.setGeometry(QtCore.QRect(0, 300, 400, 151))
+        self.barcodeView.setText("")
+        self.barcodeView.setScaledContents(True)
+        self.barcodeView.setObjectName("barcodeView")
 
         self.retranslateUi(Dialog)
         QtCore.QMetaObject.connectSlotsByName(Dialog)

@@ -4,7 +4,7 @@ from pyzbar import pyzbar
 
 class CameraThread(QtCore.QThread):
     changePixmap = QtCore.pyqtSignal(QtGui.QImage)
-    sendUPC = QtCore.pyqtSignal(str)
+    sendBarcode = QtCore.pyqtSignal(str)
 
     captureVid = True
 
@@ -32,7 +32,7 @@ class CameraThread(QtCore.QThread):
                 for barcode in barcodes:
                     barcodeData = barcode.data.decode('utf-8')
 
-                    self.sendUPC.emit(barcodeData)
+                    self.sendBarcode.emit(barcodeData)
                     self.captureVid = False
 
         cap.release()

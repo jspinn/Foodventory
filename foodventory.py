@@ -4,6 +4,8 @@ import bs4
 from PyQt5 import QtWidgets, QtCore, QtSql, QtGui
 from datetime import datetime
 from twilio.rest import Client, TwilioException
+import barcode
+from barcode.writer import ImageWriter
 
 from ui_MainWindow import Ui_MainWindow
 from weather import Weather
@@ -17,7 +19,7 @@ class MainWindow(QtWidgets.QMainWindow):
     tabs = {'Home':0, 'Inventory':1, 'List':2, 'Settings':3, 'Settings2':4, 'Scanner':5, 'ManualEnter':6}
 
     # Column indexes
-    columns = {'Name':0, 'Brand':1, 'Category':2, 'Location':3, 'Quantity':4, 'Date':5, 'UPC':6, 'Instructions':7}
+    columns = {'Name':0, 'Brand':1, 'Category':2, 'Location':3, 'Quantity':4, 'Date':5, 'Barcode':6, 'Instructions':7}
 
     DEFAULT_ZIP = '98101'
 
@@ -88,7 +90,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.query = QtSql.QSqlQuery()
         self.query.exec_("CREATE TABLE food(name TEXT, brand TEXT, category TEXT, location TEXT,"
-                         "quantity REAL, date TEXT, UPC TEXT, instructions TEXT)")
+                         "quantity REAL, date TEXT, Barcode TEXT, instructions TEXT)")
         self.query.exec_("CREATE TABLE list(item TEXT)")
 
         self.model = QtSql.QSqlTableModel()
@@ -153,7 +155,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.model.setHeaderData(self.columns['Location'], QtCore.Qt.Horizontal, "Location")
         self.model.setHeaderData(self.columns['Quantity'], QtCore.Qt.Horizontal, "Qty")
         self.model.setHeaderData(self.columns['Date'], QtCore.Qt.Horizontal, "Date")
-        self.model.setHeaderData(self.columns['UPC'], QtCore.Qt.Horizontal, "UPC")
+        self.model.setHeaderData(self.columns['Barcode'], QtCore.Qt.Horizontal, "Barcode")
 
         self.ui.tableView.setModel(self.model)
         self.ui.tableView.setColumnHidden(self.columns['Instructions'], True)
@@ -165,7 +167,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.tableView.setColumnWidth(self.columns['Location'], 80)
         self.ui.tableView.setColumnWidth(self.columns['Quantity'], 10)
         self.ui.tableView.setColumnWidth(self.columns['Date'], 80)
-        self.ui.tableView.setColumnWidth(self.columns['UPC'], 140)
+        self.ui.tableView.setColumnWidth(self.columns['Barcode'], 140)
 
 
         # Setup list table
@@ -211,6 +213,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.invDeleteButton.clicked.connect(self.inv_delete_button_pressed)
         self.ui.invAddButton.clicked.connect(self.inv_add_button_pressed)
         self.ui.invInstructionsButton.clicked.connect(self.inv_instructions_button_pressed)
+        self.ui.invBarcodeButton.clicked.connect(self.scan_button_pressed)
         self.ui.invFindButton.clicked.connect(self.inv_find_button_pressed)
         self.ui.invSearchLineEdit.returnPressed.connect(self.inv_find_button_pressed)
 
@@ -257,7 +260,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.thread = CameraThread(self)
         self.thread.changePixmap.connect(self.set_image)
 
-        self.thread.sendUPC.connect(self.receive_barcode)
+        self.thread.sendBarcode.connect(self.receive_barcode)
         self.send_rotation.connect(self.thread.receive_rotation)
 
     # SLOTS
@@ -289,13 +292,13 @@ class MainWindow(QtWidgets.QMainWindow):
         brand = self.ui.brandLineEdit.text()
         category = self.ui.categoryComboBox.currentText()
         location = self.ui.locationComboBox.currentText()
-        upc =  self.ui.upcLineEdit.text()
+        barcode =  self.ui.barcodeLineEdit.text()
         date = self.now.strftime("%m/%d/%y")
         instructions = self.ui.instructionsEdit.toPlainText()
 
         # Insert into database
-        self.query.prepare("INSERT INTO food (name, brand, category, location, quantity, date, upc, instructions) "
-                           "VALUES(:name, :brand, :category, :location, :quantity, :date, :upc, :instructions)")
+        self.query.prepare("INSERT INTO food (name, brand, category, location, quantity, date, barcode, instructions) "
+                           "VALUES(:name, :brand, :category, :location, :quantity, :date, :barcode, :instructions)")
 
         self.query.bindValue(":quantity", quantity)
         self.query.bindValue(":name", name)
@@ -303,7 +306,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.query.bindValue(":category", category)
         self.query.bindValue(":location", location)
         self.query.bindValue(":date", date)
-        self.query.bindValue(":upc", upc)
+        self.query.bindValue(":barcode", barcode)
         self.query.bindValue(":instructions", instructions)
 
         self.query.exec_()
@@ -314,7 +317,7 @@ class MainWindow(QtWidgets.QMainWindow):
         # Clear line edits
         self.ui.nameLineEdit.clear()
         self.ui.brandLineEdit.clear()
-        self.ui.upcLineEdit.clear()
+        self.ui.barcodeLineEdit.clear()
         self.ui.quantitySpinBox.setValue(1.0)
 
         # Return to home
@@ -323,7 +326,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def manual_cancel_button_pressed(self):
         self.ui.nameLineEdit.clear()
         self.ui.brandLineEdit.clear()
-        self.ui.upcLineEdit.clear()
+        self.ui.barcodeLineEdit.clear()
         self.ui.locationComboBox.setCurrentIndex(0)
         self.ui.categoryComboBox.setCurrentIndex(0)
         self.ui.stackedWidget.setCurrentIndex(self.tabs['Inventory'])
@@ -343,8 +346,22 @@ class MainWindow(QtWidgets.QMainWindow):
         record = self.model.record(self.ui.tableView.currentIndex().row())
         instruct = record.value('instructions')
 
+        barcodeNumber = record.value('Barcode')
+
         self.dialog = instructionDialog(instruct)
         self.dialog.sendInstruct.connect(self.receive_instruct)
+
+        if len(barcodeNumber) == 13:
+            EAN = barcode.get_barcode_class('ean13')
+            ean = EAN(barcodeNumber, writer=ImageWriter())
+
+            filename = ean.save('barcode')
+
+            pixmap = QtGui.QPixmap(filename)
+
+            self.dialog.ui.barcodeView.setPixmap(pixmap)
+
+
         self.dialog.show()
 
     def inv_find_button_pressed(self):
@@ -565,9 +582,9 @@ class MainWindow(QtWidgets.QMainWindow):
         self.ui.imageView.setPixmap(QtGui.QPixmap.fromImage(image))
 
     @QtCore.pyqtSlot(str)
-    def receive_barcode(self, upc):
+    def receive_barcode(self, barcode):
 
-        searchItems = self.find(upc, self.columns['UPC'], QtCore.Qt.MatchContains)
+        searchItems = self.find(barcode, self.columns['Barcode'], QtCore.Qt.MatchContains)
 
         if searchItems:
             self.ui.stackedWidget.setCurrentIndex(self.tabs['Inventory'])
@@ -577,10 +594,10 @@ class MainWindow(QtWidgets.QMainWindow):
 
         else:
             self.ui.stackedWidget.setCurrentIndex(self.tabs['ManualEnter'])
-            self.ui.upcLineEdit.setText(upc)
+            self.ui.barcodeLineEdit.setText(barcode)
 
             # ADD ONLINE NAME SEARCH HERE
-            page = 'https://www.barcodelookup.com/{}'.format(upc)
+            page = 'https://www.barcodelookup.com/{}'.format(barcode)
 
 
             try:
